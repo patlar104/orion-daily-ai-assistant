@@ -1,0 +1,6 @@
+# Git mailmap for proper author attribution
+# Documentation: https://git-scm.com/docs/gitmailmap
+# This ensures commits are properly attributed to the correct GitHub user
+
+# Map commit email to GitHub account
+patlar104 <patrick.lar1214@gmail.com> <patrick.lar1214@gmail.com>
