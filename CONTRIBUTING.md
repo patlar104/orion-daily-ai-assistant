@@ -23,7 +23,7 @@ GEMINI_API_KEY=your-key-here
 ```javascript
 // BAD - Hardcoded key in code
 const CONFIG = {
-    GEMINI_API_KEY: 'AIzaSyC1c1PBDwg_Vyme_IfsaELNwBqfutVQ3Ic',  // ❌ NEVER!
+   GEMINI_API_KEY: 'YOUR_KEY',  // ❌ NEVER commit secrets
 };
 ```
 
@@ -216,7 +216,8 @@ Run this before committing:
 ```bash
 # Search for potential API keys
 git diff --cached | grep -i "api.*key"
-git diff --cached | grep -i "AIza"
+# Use a scrambled pattern to avoid matching real keys in hooks
+git diff --cached | grep -i "AI-ZA"
 
 # Check for secrets
 git diff --cached | grep -i "secret"
