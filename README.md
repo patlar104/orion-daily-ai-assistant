@@ -5,6 +5,10 @@ A modern, production-ready AI assistant powered by Google's Gemini API. Built wi
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-active-success)
+![CI](https://github.com/patlar104/orion-daily-ai-assistant/actions/workflows/ci.yml/badge.svg?branch=main)
+![Pages](https://img.shields.io/github/deployments/patlar104/orion-daily-ai-assistant/github-pages?label=pages)
+
+Live: https://patlar104.github.io/orion-daily-ai-assistant/
 
 ## ✨ Features
 
