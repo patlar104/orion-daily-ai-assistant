@@ -95,9 +95,9 @@ Updated:
 
 ---
 
-# README Update Template
+## README Update Template
 
-## When Adding a Feature
+### When Adding a Feature
 
 ```markdown
 ### ✨ Features
@@ -119,7 +119,7 @@ Updated:
 - Benefit 2
 ```
 
-## When Fixing a Bug
+### When Fixing a Bug
 
 Update relevant section with:
 ```markdown
@@ -129,7 +129,7 @@ Update relevant section with:
 
 ---
 
-# Pre-Commit Checklist Template
+## Pre-Commit Checklist Template
 
 ```markdown
 ## Pre-Commit Checklist
@@ -170,7 +170,7 @@ Update relevant section with:
 
 ---
 
-# Feature Planning Template
+## Feature Planning Template
 
 ```markdown
 ## 📋 Feature Plan: <Feature Name>
@@ -221,7 +221,7 @@ feat(<scope>): <description>
 
 ---
 
-# Self-Review Template (Critic Loop)
+## Self-Review Template (Critic Loop)
 
 ```markdown
 ## 🔍 Self-Review Checklist
@@ -257,7 +257,7 @@ All issues resolved: [ ]
 
 ---
 
-# Post-Commit Summary Template
+## Post-Commit Summary Template
 
 ```markdown
 ## ✅ Commit Summary
