@@ -1,0 +1,13 @@
+[allowlist]
+  description = "Allow documented placeholders and CI tokens"
+  regexes = [
+    '''GEMINI_API_KEY=your-key-here''',
+    '''GEMINI_API_KEY\s*[:=]\s*['\"]?\s*['\"]?''',
+    '''<repository-url>''',
+    '''GITHUB_TOKEN'''
+  ]
+  paths = [
+    '''README\.md''',
+    '''CONTRIBUTING\.md''',
+    '''\.github/.*'''
+  ]

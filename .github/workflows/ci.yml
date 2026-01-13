@@ -40,4 +40,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: detect --no-git -v --source .
+          args: detect --no-git -v --source . --config-path .gitleaks.toml
