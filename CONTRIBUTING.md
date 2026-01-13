@@ -4,7 +4,8 @@
 
 **⚠️ CRITICAL: Never commit API keys or secrets to version control!**
 
-### ✅ Safe Practices:
+### ✅ Safe Practices
+
 ```javascript
 // GOOD - Use empty string, let users add via Settings UI
 const CONFIG = {
@@ -19,7 +20,8 @@ const API_KEY = process.env.GEMINI_API_KEY;
 GEMINI_API_KEY=your-key-here
 ```
 
-### ❌ Unsafe Practices:
+### ❌ Unsafe Practices
+
 ```javascript
 // BAD - Hardcoded key in code
 const CONFIG = {
@@ -27,8 +29,9 @@ const CONFIG = {
 };
 ```
 
-### If You Accidentally Commit a Key:
-1. **Revoke the key immediately** at https://makersuite.google.com/app/apikeys
+### If You Accidentally Commit a Key
+
+1. **Revoke the key immediately** at <https://makersuite.google.com/app/apikeys>
 2. Generate a new key
 3. Use `git rebase` or `git filter-branch` to remove it from history
 4. Force push with `git push --force`
@@ -39,7 +42,8 @@ const CONFIG = {
 
 We follow **Conventional Commits** format:
 
-### Format:
+### Format
+
 ```
 <type>(<scope>): <subject>
 
@@ -48,7 +52,8 @@ We follow **Conventional Commits** format:
 <footer>
 ```
 
-### Types:
+### Types
+
 - `feat:` - New feature for the user
 - `fix:` - Bug fix for the user
 - `docs:` - Documentation changes
@@ -60,7 +65,7 @@ We follow **Conventional Commits** format:
 - `build:` - Build system changes
 - `ci:` - CI/CD changes
 
-### Examples:
+### Examples
 
 ```bash
 # Feature addition
@@ -91,31 +96,35 @@ Users must update API keys and configuration."
 
 ## 🔄 Git Workflow
 
-### Daily Development:
+### Daily Development
 
 1. **Check status before working**
+
    ```bash
    git status
    git pull origin main
    ```
 
 2. **Create feature branch**
+
    ```bash
    git checkout -b feat/your-feature-name
    ```
 
 3. **Make changes and commit frequently**
+
    ```bash
    git add <files>
    git commit -m "feat: your commit message"
    ```
 
 4. **Push and create PR**
+
    ```bash
    git push origin feat/your-feature-name
    ```
 
-### Before Each Commit Checklist:
+### Before Each Commit Checklist
 
 - [ ] **Privacy Check**: No API keys or secrets in code?
 - [ ] **Linting**: Code follows style guidelines?
@@ -128,9 +137,10 @@ Users must update API keys and configuration."
 
 ## 📦 .gitignore Maintenance
 
-### When to Update .gitignore:
+### When to Update .gitignore
 
 1. **Adding new dependencies**
+
    ```bash
    # If you add npm packages
    node_modules/
@@ -138,6 +148,7 @@ Users must update API keys and configuration."
    ```
 
 2. **New build tools**
+
    ```bash
    # If you add a bundler
    dist/
@@ -146,6 +157,7 @@ Users must update API keys and configuration."
    ```
 
 3. **New local config**
+
    ```bash
    # If you add local config files
    .env.local
@@ -153,13 +165,15 @@ Users must update API keys and configuration."
    ```
 
 4. **IDE/Editor changes**
+
    ```bash
    # If team uses new editor
    .fleet/
    .zed/
    ```
 
-### Current .gitignore Covers:
+### Current .gitignore Covers
+
 ✅ Environment files (.env, *.key)  
 ✅ OS files (.DS_Store, Thumbs.db)  
 ✅ Editor configs (.vscode, .idea)  
@@ -174,6 +188,7 @@ Users must update API keys and configuration."
 ### Example: Adding Local Storage Feature
 
 1. **Create feature branch**
+
    ```bash
    git checkout -b feat/local-storage-persistence
    ```
@@ -184,6 +199,7 @@ Users must update API keys and configuration."
 
 3. **Update README**
    Add to Features section:
+
    ```markdown
    ### 💾 Data Persistence
    - **Local Storage** - All data persists across sessions
@@ -192,6 +208,7 @@ Users must update API keys and configuration."
    ```
 
 4. **Commit with proper message**
+
    ```bash
    git add script.js README.md
    git commit -m "feat: add localStorage persistence for tasks and notes
@@ -203,6 +220,7 @@ Users must update API keys and configuration."
    ```
 
 5. **Push and review**
+
    ```bash
    git push origin feat/local-storage-persistence
    ```
@@ -231,7 +249,8 @@ git status --ignored
 
 ## 📊 Commit Message Examples for This Project
 
-### Features:
+### Features
+
 ```bash
 feat: add task due date picker
 feat: implement dark/light theme toggle
@@ -239,7 +258,8 @@ feat: add export tasks to CSV functionality
 feat: integrate voice-to-text for chat input
 ```
 
-### Fixes:
+### Fixes
+
 ```bash
 fix: resolve task checkbox not updating state
 fix: correct API error handling for rate limits
@@ -247,7 +267,8 @@ fix: prevent XSS in task descriptions
 fix: fix mobile responsive layout overflow
 ```
 
-### Documentation:
+### Documentation
+
 ```bash
 docs: add API rate limiting information
 docs: update installation steps for Windows
@@ -255,7 +276,8 @@ docs: add troubleshooting section to README
 docs: document keyboard shortcuts
 ```
 
-### Chores:
+### Chores
+
 ```bash
 chore: update .gitignore for Vite builds
 chore: upgrade Gemini API to v2
@@ -267,7 +289,8 @@ chore: add prettier config for code formatting
 
 ## 🎯 README Maintenance
 
-### Current Features in README:
+### Current Features in README
+
 ✅ AI Chat Interface  
 ✅ Smart Task Management  
 ✅ Auto-categorization (5 categories)  
@@ -280,7 +303,8 @@ chore: add prettier config for code formatting
 ✅ Local Storage Persistence  
 ✅ XSS Protection  
 
-### When to Update README:
+### When to Update README
+
 - Adding a new major feature → Update "Features" section
 - Changing configuration → Update "Configuration" section
 - Adding dependencies → Update "Technical Stack"

@@ -106,8 +106,36 @@ function setupEventListeners() {
         if (e.key === 'Enter') addTask();
     });
     
+    // Task list event delegation
+    DOM.tasksList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('task-delete-btn')) {
+            const taskId = parseInt(e.target.dataset.taskId, 10);
+            deleteTask(taskId);
+        }
+    });
+    DOM.tasksList.addEventListener('change', (e) => {
+        if (e.target.classList.contains('task-checkbox')) {
+            const taskId = parseInt(e.target.dataset.taskId, 10);
+            toggleTaskCompletion(taskId);
+        }
+    });
+    
     // Notes
     DOM.addNoteBtn.addEventListener('click', toggleNoteInput);
+    
+    // Notes list event delegation
+    DOM.notesList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('note-delete-btn')) {
+            const noteId = parseInt(e.target.dataset.noteId, 10);
+            deleteNote(noteId);
+        }
+        // Handle note text click for chat suggestions
+        const noteDiv = e.target.closest('[data-message]');
+        if (noteDiv && !e.target.classList.contains('note-delete-btn')) {
+            const message = noteDiv.dataset.message;
+            if (message) sendChatMessage(message);
+        }
+    });
     
     // Chat
     DOM.sendBtn.addEventListener('click', sendMessage);
@@ -132,6 +160,15 @@ function setupEventListeners() {
     
     // History
     DOM.clearHistoryBtn.addEventListener('click', clearHistory);
+    
+    // History list event delegation
+    DOM.historyList.addEventListener('click', (e) => {
+        const messageDiv = e.target.closest('[data-message]');
+        if (messageDiv) {
+            const message = messageDiv.dataset.message;
+            if (message) sendChatMessage(message);
+        }
+    });
 }
 
 // ============================================
@@ -171,6 +208,7 @@ function addTask() {
     suggestAIInsight(`New task added: "${taskText}"`);
 }
 
+/* eslint-disable-next-line no-unused-vars */
 function deleteTask(taskId) {
     state.tasks = state.tasks.filter(t => t.id !== taskId);
     saveToLocalStorage();
@@ -178,6 +216,7 @@ function deleteTask(taskId) {
     updateUI();
 }
 
+/* eslint-disable-next-line no-unused-vars */
 function toggleTaskCompletion(taskId) {
     const task = state.tasks.find(t => t.id === taskId);
     if (task) {
@@ -252,15 +291,15 @@ function renderTasks() {
                     <input 
                         type="checkbox" 
                         class="task-checkbox"
+                        data-task-id="${task.id}"
                         ${task.completed ? 'checked' : ''}
-                        onchange="toggleTaskCompletion(${task.id})"
                     >
                     <div style="flex: 1;">
                         <div>${task.text}</div>
                         <small style="opacity: 0.6; font-size: 0.75em;">[${category}] ${task.priority}</small>
                     </div>
                 </div>
-                <button class="task-delete-btn" onclick="deleteTask(${task.id})">🗑️</button>
+                <button class="task-delete-btn" data-task-id="${task.id}">🗑️</button>
             `;
             tasksList.appendChild(taskEl);
         });
@@ -293,6 +332,7 @@ function addNote(noteText) {
     updateUI();
 }
 
+/* eslint-disable-next-line no-unused-vars */
 function deleteNote(noteId) {
     state.notes = state.notes.filter(n => n.id !== noteId);
     saveToLocalStorage();
@@ -317,10 +357,10 @@ function renderNotes() {
         noteEl.className = 'note-item';
         const preview = note.text.substring(0, 40) + (note.text.length > 40 ? '...' : '');
         noteEl.innerHTML = `
-            <div style="flex: 1; cursor: pointer;" onclick="sendChatMessage('Summarize this note: &quot;${note.text.replace(/"/g, '\\"')}&quot;')">
+            <div style="flex: 1; cursor: pointer; padding: 5px;" data-message="Summarize this note: &quot;${note.text.replace(/"/g, '\\"')}&quot;">
                 ${preview}
             </div>
-            <button class="note-delete-btn" onclick="deleteNote(${note.id})">✕</button>
+            <button class="note-delete-btn" data-note-id="${note.id}">✕</button>
         `;
         notesList.appendChild(noteEl);
     });
@@ -359,6 +399,7 @@ async function sendMessage() {
         renderHistory();
         
     } catch (error) {
+        /* eslint-disable-next-line no-console */
         console.error('API Error:', error);
         addMessageToChat(`Error: ${error.message}. Please check your API key and try again.`, 'bot');
     } finally {
@@ -451,6 +492,7 @@ Be concise, helpful, and actionable. If the user asks about their tasks, provide
         
         return reply;
     } catch (error) {
+        /* eslint-disable-next-line no-console */
         console.error('Gemini API Error:', error);
         throw error;
     }
@@ -477,7 +519,7 @@ function buildContext() {
     return context || 'No tasks or notes yet.';
 }
 
-function suggestAIInsight(insight) {
+function suggestAIInsight() {
     // Optional: Auto-suggest AI responses for context
     // Could be extended for more intelligent suggestions
 }
@@ -528,7 +570,7 @@ function renderHistory() {
         historyEl.className = 'history-item';
         const preview = item.message.substring(0, 30) + (item.message.length > 30 ? '...' : '');
         historyEl.innerHTML = `
-            <div style="flex: 1; cursor: pointer;" onclick="sendChatMessage('${item.message.replace(/'/g, "\\'")}')">
+            <div style="flex: 1; cursor: pointer;" data-message="${item.message.replace(/"/g, '&quot;')}">
                 ${preview}
             </div>
         `;
