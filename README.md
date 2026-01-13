@@ -93,6 +93,18 @@ Notes:
 - Secrets aren't required because everything is static and client-side.
 - If you change the default branch, update `branches: ["main"]` in `.github/workflows/deploy-pages.yml`.
 
+## ✅ Automation & Quality
+
+- CI checks: Markdown lint, link check, and secret scan on PRs ([.github/workflows/ci.yml](.github/workflows/ci.yml))
+- PR template includes Critic (self‑review) + Reviewer checklists ([.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md))
+- Critic/Reviewer guide with prompt templates ([.github/CRITIC_RULES.md](.github/CRITIC_RULES.md))
+- CODEOWNERS routes reviews to the owner ([.github/CODEOWNERS](.github/CODEOWNERS))
+
+Flow:
+1. Run through the Critic checklist locally before opening a PR
+2. Open a PR and complete the template checkboxes
+3. CI runs and must pass before merge
+
 ## 📁 Project Structure
 
 ```
@@ -104,6 +116,10 @@ project/
 ├── .github/
 │   └── workflows/
 │       └── deploy-pages.yml  # GitHub Pages deploy pipeline
+│   ├── PULL_REQUEST_TEMPLATE.md  # Critic + Reviewer checklists
+│   ├── CRITIC_RULES.md           # Guide and prompt templates
+│   ├── CODEOWNERS                # Default reviewer
+│   └── workflows/ci.yml          # Lint, link check, secret scan
 └── README.md           # This file
 ```
 
