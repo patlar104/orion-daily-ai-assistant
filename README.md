@@ -81,6 +81,18 @@ A modern, production-ready AI assistant powered by Google's Gemini API. Built wi
 
 That's it! Start chatting with your AI assistant.
 
+## 📦 Deployment (GitHub Pages)
+
+The repo ships with an automated Pages workflow that publishes the static site on every push to `main`.
+
+1. In GitHub, go to **Settings → Pages** and set **Source** to **GitHub Actions**.
+2. Push to `main` (or manually run **Deploy static site to GitHub Pages** under **Actions**).
+3. The workflow builds nothing (pure static) and uploads the root folder. The deployment URL is visible in the job summary.
+
+Notes:
+- Secrets aren't required because everything is static and client-side.
+- If you change the default branch, update `branches: ["main"]` in `.github/workflows/deploy-pages.yml`.
+
 ## 📁 Project Structure
 
 ```
@@ -89,6 +101,9 @@ project/
 ├── style.css           # Premium dark theme CSS
 ├── script.js           # Core application logic + Gemini API
 ├── .gitignore          # Git ignore rules
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml  # GitHub Pages deploy pipeline
 └── README.md           # This file
 ```
 
