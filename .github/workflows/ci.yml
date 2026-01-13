@@ -41,3 +41,57 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: detect --no-git -v --source . --config-path .gitleaks.toml
+
+  validate-html:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Validate HTML
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: .
+          css: true
+
+  lint-js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install ESLint
+        run: npm install --no-save eslint@8
+      - name: Lint JavaScript
+        run: npx eslint script.js --no-eslintrc --env browser,es2021 --parser-options ecmaVersion:2021,sourceType:module --rule 'no-console:warn,no-undef:error,no-unused-vars:error,no-unreachable:error'
+
+  check-source-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Check for debug statements
+        run: |
+          if grep -r "console\.log" script.js; then
+            echo "⚠️ Found console.log statements - review before production"
+          fi
+          if grep -r "debugger" script.js; then
+            echo "❌ Found debugger statements"
+            exit 1
+          fi
+      - name: Check file sizes
+        run: |
+          MAX_JS=500
+          MAX_CSS=300
+          MAX_HTML=100
+          JS_SIZE=$(du -k script.js | cut -f1)
+          CSS_SIZE=$(du -k style.css | cut -f1)
+          HTML_SIZE=$(du -k index.html | cut -f1)
+          if [ "$JS_SIZE" -gt "$MAX_JS" ]; then
+            echo "⚠️ script.js is ${JS_SIZE}KB (limit: ${MAX_JS}KB) - consider code splitting"
+          fi
+          if [ "$CSS_SIZE" -gt "$MAX_CSS" ]; then
+            echo "⚠️ style.css is ${CSS_SIZE}KB (limit: ${MAX_CSS}KB) - consider optimization"
+          fi
+          if [ "$HTML_SIZE" -gt "$MAX_HTML" ]; then
+            echo "⚠️ index.html is ${HTML_SIZE}KB (limit: ${MAX_HTML}KB) - review structure"
+          fi
