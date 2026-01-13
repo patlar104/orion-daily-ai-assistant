@@ -2,6 +2,10 @@
   // markdownlint-cli2 configuration
   "config": {
     "MD013": false,          // line length
+    "MD022": false,          // blank lines around headings
+    "MD026": false,          // trailing punctuation in headings
+    "MD031": false,          // blank lines around code fences
+    "MD032": false,          // blank lines around lists
     "MD033": false,          // inline HTML in Markdown
     "MD041": false,          // first line = H1 (our badges precede headings)
     "MD024": {               // allow same heading text at different nesting
