@@ -2,9 +2,11 @@
   description = "Allow documented placeholders and CI tokens"
   regexes = [
     '''GEMINI_API_KEY=your-key-here''',
-    '''GEMINI_API_KEY\s*[:=]\s*['\"]?\s*['\"]?''',
+    '''YOUR_KEY''',
+    '''your-key-here''',
     '''<repository-url>''',
-    '''GITHUB_TOKEN'''
+    '''GITHUB_TOKEN''',
+    '''process\.env\.GEMINI_API_KEY'''
   ]
   paths = [
     '''README\.md''',
