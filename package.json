@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/patlar104/orion-daily-ai-assistant#readme",
   "devDependencies": {
-    "eslint": "^8.57.1",
+    "eslint": "^9.39.2",
     "markdownlint-cli2": "^0.20.0"
   }
 }
