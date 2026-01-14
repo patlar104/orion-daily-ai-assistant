@@ -1,0 +1,88 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start MCP Servers",
+      "type": "shell",
+      "command": "echo 'MCP servers auto-starting...'",
+      "runOn": "folderOpen",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Start Local Server",
+      "type": "shell",
+      "command": "python3 -m http.server 8000",
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "showReuseMessage": false
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Privacy Shield Scan",
+      "type": "shell",
+      "command": "./.github/workflow.sh check",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": "test"
+    },
+    {
+      "label": "Interactive Commit",
+      "type": "shell",
+      "command": "./.github/workflow.sh commit",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Lint JavaScript",
+      "type": "shell",
+      "command": "npx eslint script.js",
+      "problemMatcher": ["$eslint-stylish"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": "test"
+    },
+    {
+      "label": "Lint Markdown",
+      "type": "shell",
+      "command": "npx markdownlint-cli2 '**/*.md' '#node_modules'",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": "test"
+    },
+    {
+      "label": "Run All Quality Checks",
+      "dependsOn": [
+        "Privacy Shield Scan",
+        "Lint JavaScript",
+        "Lint Markdown"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    }
+  ]
+}

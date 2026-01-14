@@ -1,292 +1,177 @@
-# Development Workflow & Git Guidelines
+# Contributing to Daily AI Assistant
 
-## 🛡️ Privacy Shield - API Key Protection
+Thank you for your interest in contributing! This project uses an optimized AI agent workflow with automated quality checks and documentation.
 
-**⚠️ CRITICAL: Never commit API keys or secrets to version control!**
+## 🚀 Quick Start
 
-### ✅ Safe Practices:
-```javascript
-// GOOD - Use empty string, let users add via Settings UI
-const CONFIG = {
-    GEMINI_API_KEY: '',  // User adds via UI
-};
+**See the full workflow guide:** [AI Agent Workflow Guide](.github/AI_AGENT_WORKFLOW.md)
 
-// GOOD - Use environment variables (if using Node.js)
-const API_KEY = process.env.GEMINI_API_KEY;
-
-// GOOD - Load from .env file (gitignored)
-// In .env file:
-GEMINI_API_KEY=your-key-here
-```
-
-### ❌ Unsafe Practices:
-```javascript
-// BAD - Hardcoded key in code
-const CONFIG = {
-   GEMINI_API_KEY: 'YOUR_KEY',  // ❌ NEVER commit secrets
-};
-```
-
-### If You Accidentally Commit a Key:
-1. **Revoke the key immediately** at https://makersuite.google.com/app/apikeys
-2. Generate a new key
-3. Use `git rebase` or `git filter-branch` to remove it from history
-4. Force push with `git push --force`
-
----
-
-## 📋 Commit Message Guidelines
-
-We follow **Conventional Commits** format:
-
-### Format:
-```
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
-```
-
-### Types:
-- `feat:` - New feature for the user
-- `fix:` - Bug fix for the user
-- `docs:` - Documentation changes
-- `style:` - Code style changes (formatting, no logic change)
-- `refactor:` - Code refactoring (no feature/fix)
-- `perf:` - Performance improvements
-- `test:` - Adding or updating tests
-- `chore:` - Maintenance tasks (deps, config, etc.)
-- `build:` - Build system changes
-- `ci:` - CI/CD changes
-
-### Examples:
+### Development
 
 ```bash
-# Feature addition
-git commit -m "feat: add voice input support for chat interface"
+# Start local server
+Cmd+Shift+B    # or python3 -m http.server 8000
 
-# Bug fix
-git commit -m "fix: resolve task deletion not persisting to localStorage"
-
-# Documentation
-git commit -m "docs: update README with voice input instructions"
-
-# Multiple changes
-git commit -m "feat: implement task search and filtering
-
-- Add search input in tasks panel
-- Filter tasks by category and priority
-- Update UI to show filtered results
-- Add clear filters button"
-
-# Breaking change
-git commit -m "feat!: migrate to Gemini 2.5 Flash API
-
-BREAKING CHANGE: Old API endpoints no longer supported.
-Users must update API keys and configuration."
+# Run quality checks
+Cmd+Shift+T    # Privacy scan + ESLint + Markdown lint
 ```
 
----
+### Working with AI Agent
 
-## 🔄 Git Workflow
+**Just ask naturally:**
+```
+"Add task filtering by category"
+"Fix the bug where tasks don't save"
+"Improve mobile responsiveness"
+```
 
-### Daily Development:
+The AI agent will:
+1. ✅ Research best practices (Context7)
+2. ✅ Implement the feature
+3. ✅ Run security & quality checks
+4. ✅ Update documentation
+5. ✅ Generate conventional commits
 
-1. **Check status before working**
-   ```bash
-   git status
-   git pull origin main
-   ```
+## 📋 Workflow Rules
 
-2. **Create feature branch**
-   ```bash
-   git checkout -b feat/your-feature-name
-   ```
+**Privacy Shield** - All commits scanned for secrets:
+- Google API keys (AIza...)
+- OpenAI keys (sk-...)
+- GitHub tokens (ghp_...)
+- Hardcoded secrets
 
-3. **Make changes and commit frequently**
-   ```bash
-   git add <files>
-   git commit -m "feat: your commit message"
-   ```
+**Conventional Commits:**
+```
+feat: new feature
+fix: bug fix
+docs: documentation
+style: formatting/CSS
+refactor: code restructuring
+perf: performance
+test: tests
+chore: maintenance
+```
 
-4. **Push and create PR**
-   ```bash
-   git push origin feat/your-feature-name
-   ```
+**Pre-commit Checklist:**
+- [ ] No secrets in code
+- [ ] Code tested in browser
+- [ ] No debug console.log()
+- [ ] README updated (if features changed)
+- [ ] Commit message follows format
 
-### Before Each Commit Checklist:
+## 📚 Documentation
 
-- [ ] **Privacy Check**: No API keys or secrets in code?
-- [ ] **Linting**: Code follows style guidelines?
-- [ ] **Testing**: Does it work in the browser?
-- [ ] **README**: Updated features list if needed?
-- [ ] **Gitignore**: New files/folders need ignoring?
-- [ ] **Commit Message**: Follows conventional commits?
+Key files:
+- [AI Agent Workflow](.github/AI_AGENT_WORKFLOW.md) - Complete reference
+- [Copilot Instructions](.github/copilot-instructions.md) - AI rules
+- [AI Assistant Rules](.github/AI_ASSISTANT_RULES.md) - Detailed automation
+- [Critic Rules](.github/CRITIC_RULES.md) - Code review guide
 
----
+## 🛠️ Tools Available
 
-## 📦 .gitignore Maintenance
+**VS Code Tasks** (`Cmd+Shift+P` → "Tasks: Run Task"):
+- Start Local Server
+- Privacy Shield Scan
+- Lint JavaScript
+- Lint Markdown
+- Run All Quality Checks
+- Interactive Commit
 
-### When to Update .gitignore:
+## 💡 Example Contributions
 
-1. **Adding new dependencies**
-   ```bash
-   # If you add npm packages
-   node_modules/
-   package-lock.json
-   ```
+### Adding a Feature
+```
+You: "Add dark mode toggle"
 
-2. **New build tools**
-   ```bash
-   # If you add a bundler
-   dist/
-   build/
-   .parcel-cache/
-   ```
+AI Agent:
+1. Query Context7 for CSS best practices
+2. Implement using latest standards
+3. Test on all devices
+4. Update README
+5. Generate commit message
+```
 
-3. **New local config**
-   ```bash
-   # If you add local config files
-   .env.local
-   config.local.json
-   ```
+### Fixing a Bug
+```
+You: "Tasks aren't saving"
 
-4. **IDE/Editor changes**
-   ```bash
-   # If team uses new editor
-   .fleet/
-   .zed/
-   ```
+AI Agent:
+1. Search for related code
+2. Identify root cause
+3. Implement fix with error handling
+4. Run tests
+5. Generate commit
+```
 
-### Current .gitignore Covers:
-✅ Environment files (.env, *.key)  
-✅ OS files (.DS_Store, Thumbs.db)  
-✅ Editor configs (.vscode, .idea)  
-✅ Dependencies (node_modules)  
-✅ Build outputs (dist/, *.min.*)  
-✅ Temporary files (*.tmp, *.log)  
+## 🔒 Privacy Commitments
 
----
+- ❌ No API keys committed
+- ❌ No hardcoded secrets
+- ✅ All credentials in localStorage or .env
+- ✅ Pre-commit hook blocks exposed keys
+- ✅ Security review enforced
 
-## 🚀 Feature Addition Workflow
+## ✨ Code Quality
 
-### Example: Adding Local Storage Feature
+**Event Handling:**
+- ✅ Use event delegation with data attributes
+- ❌ Never use inline `onclick` attributes
 
-1. **Create feature branch**
-   ```bash
-   git checkout -b feat/local-storage-persistence
-   ```
+**Input Handling:**
+- Always sanitize user input
+- Use `textContent` instead of `innerHTML` for data
+- Validate localStorage data
 
-2. **Implement feature**
-   - Write code in script.js
-   - Test thoroughly
+**Error Handling:**
+- Wrap API calls in try-catch
+- Provide friendly error messages
+- Log errors for debugging
 
-3. **Update README**
-   Add to Features section:
-   ```markdown
-   ### 💾 Data Persistence
-   - **Local Storage** - All data persists across sessions
-   - **Auto-save** - Tasks and notes saved automatically
-   - **Export/Import** - Download your data as JSON
-   ```
+## 🧪 Testing
 
-4. **Commit with proper message**
-   ```bash
-   git add script.js README.md
-   git commit -m "feat: add localStorage persistence for tasks and notes
-   
-   - Implement auto-save on task/note changes
-   - Add export/import functionality
-   - Update README with new features
-   - Ensure data survives browser refresh"
-   ```
-
-5. **Push and review**
-   ```bash
-   git push origin feat/local-storage-persistence
-   ```
-
----
-
-## 🔍 Pre-Commit Privacy Audit
-
-Run this before committing:
-
+Before committing:
 ```bash
-# Search for potential API keys
-git diff --cached | grep -i "api.*key"
-# Use a scrambled pattern to avoid matching real keys in hooks
-git diff --cached | grep -i "AI-ZA"
-
-# Check for secrets
-git diff --cached | grep -i "secret"
-git diff --cached | grep -i "password"
-
-# Verify .gitignore is working
-git status --ignored
+1. Test in Chrome
+2. Test on mobile view (UI changes)
+3. Test localStorage (data changes)
+4. Test API integration (API changes)
+5. Verify responsive design
 ```
+
+## 📖 Documentation Standards
+
+**Every feature needs:**
+- README section in Features list
+- Inline code comments (complex logic)
+- Usage examples
+- Configuration options (if any)
+
+**Every commit includes:**
+- Why the change was made
+- What was changed
+- Any side effects
+
+## 🎯 Success Criteria
+
+Every change should:
+- ✅ Pass Privacy Shield scan
+- ✅ Follow conventional commit format
+- ✅ Include updated documentation
+- ✅ Work on all device sizes
+- ✅ Handle errors gracefully
+- ✅ Be accessible
+- ✅ Be performant
+
+## 📞 Questions?
+
+**See these files for detailed guidance:**
+- [AI Agent Workflow](.github/AI_AGENT_WORKFLOW.md) - How the workflow works
+- [Critic Rules](.github/CRITIC_RULES.md) - Code review checklist
+- [AI Assistant Rules](.github/AI_ASSISTANT_RULES.md) - Automation rules
 
 ---
 
-## 📊 Commit Message Examples for This Project
+**Thanks for contributing!** 🚀
 
-### Features:
-```bash
-feat: add task due date picker
-feat: implement dark/light theme toggle
-feat: add export tasks to CSV functionality
-feat: integrate voice-to-text for chat input
-```
+Focus on features. The AI agent handles quality, security, and documentation.
 
-### Fixes:
-```bash
-fix: resolve task checkbox not updating state
-fix: correct API error handling for rate limits
-fix: prevent XSS in task descriptions
-fix: fix mobile responsive layout overflow
-```
-
-### Documentation:
-```bash
-docs: add API rate limiting information
-docs: update installation steps for Windows
-docs: add troubleshooting section to README
-docs: document keyboard shortcuts
-```
-
-### Chores:
-```bash
-chore: update .gitignore for Vite builds
-chore: upgrade Gemini API to v2
-chore: remove unused CSS classes
-chore: add prettier config for code formatting
-```
-
----
-
-## 🎯 README Maintenance
-
-### Current Features in README:
-✅ AI Chat Interface  
-✅ Smart Task Management  
-✅ Auto-categorization (5 categories)  
-✅ Priority Scoring (P1-P4)  
-✅ Quick Notes  
-✅ Chat History  
-✅ Quick Actions  
-✅ Dark Theme  
-✅ Responsive Design  
-✅ Local Storage Persistence  
-✅ XSS Protection  
-
-### When to Update README:
-- Adding a new major feature → Update "Features" section
-- Changing configuration → Update "Configuration" section
-- Adding dependencies → Update "Technical Stack"
-- New setup steps → Update "Quick Start"
-- Security changes → Update "Privacy & Data"
-
----
-
-**Remember: Security First, Commit Often, Document Everything!** 🛡️

@@ -1,0 +1,85 @@
+{
+  // markdownlint-cli2 configuration
+  // Documentation: https://github.com/DavidAnson/markdownlint-cli2
+  // Rule reference: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+  
+  "config": {
+    // === Layout & Formatting Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md013.md
+    "MD013": false,          // Line length - disabled for flexibility in docs/templates
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md022.md
+    "MD022": false,          // Blank lines around headings - relaxed for compact formatting
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md026.md
+    "MD026": false,          // Trailing punctuation in headings - allow for emphasis
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md031.md
+    "MD031": false,          // Blank lines around code fences - relaxed for tight formatting
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md032.md
+    "MD032": false,          // Blank lines around lists - relaxed for compact lists
+    
+    // === Content Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md033.md
+    "MD033": false,          // Inline HTML - allowed for badges, GitHub features
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md041.md
+    "MD041": false,          // First line must be H1 - disabled (badges precede headings)
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md024.md
+    "MD024": {               // Multiple headings with same content - allow at different nesting
+      "siblings_only": true   // Only flag duplicates at same level (not across different sections)
+    },
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md012.md
+    "MD012": {               // Multiple consecutive blank lines
+      "maximum": 2           // Allow up to 2 blank lines for visual separation in long docs
+    },
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md009.md
+    "MD009": false,          // Trailing spaces - disabled (conflicts with line breaks in templates)
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md029.md
+    "MD029": {               // Ordered list item prefix
+      "style": "one_or_ordered"  // Allow either style (consistent within list)
+    },
+    
+    // === Code Block Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md040.md
+    "MD040": false,          // Fenced code blocks language - disabled (docs use plain text examples)
+    
+    // === Heading Style Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md036.md
+    "MD036": false,          // Emphasis used as heading - disabled (templates use emphasis for steps)
+    
+    // === Document Structure Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md025.md
+    "MD025": {               // Multiple top-level headings - allow for template files
+      "front_matter_title": ""
+    },
+    
+    // === Table Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md060.md
+    "MD060": false           // Table column style - disabled (auto-formatter handles this)
+  },
+  
+  // Ignore patterns
+  "ignores": [
+    "**/node_modules/**",
+    "**/dist/**",
+    ".github/agents/*.md",               // Agent templates (intentional duplicate headings)
+    "!.github/agents/README.md",         // Exception: User-facing agents overview
+    "*SUMMARY.md",                        // Internal summary/log files (not user-facing)
+    "*-quick-ref.md"                      // Archived quick reference files
+  ],
+  
+  // File-specific overrides
+  "customRules": [],
+  
+  // Automatically fix issues when possible
+  "fix": true,
+  
+  // Respect .gitignore patterns
+  "gitignore": true
+}
