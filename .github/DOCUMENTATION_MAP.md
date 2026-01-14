@@ -4,6 +4,8 @@
 
 Your workflow documentation has been consolidated and organized into a clear hierarchy. Here's what goes where:
 
+**🔄 For recent changes:** See [REFACTOR_SUMMARY.md](../REFACTOR_SUMMARY.md) for the latest repository refactor details.
+
 ---
 
 ## 🎯 Core Workflow (Start Here)

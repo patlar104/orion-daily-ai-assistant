@@ -284,6 +284,13 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 MIT License - feel free to use this project for personal or commercial purposes.
 
+## 📚 Documentation
+
+- [AI Agent Workflow Guide](.github/AI_AGENT_WORKFLOW.md) - Complete workflow reference
+- [Documentation Map](.github/DOCUMENTATION_MAP.md) - Find any documentation
+- [Refactor Summary](REFACTOR_SUMMARY.md) - Recent repository changes
+- [Contributing Guide](CONTRIBUTING.md) - How to contribute
+
 ## 🙏 Acknowledgments
 
 - Google Gemini API for powering the AI
