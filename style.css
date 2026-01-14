@@ -109,6 +109,25 @@ a:focus-visible {
     }
 }
 
+/* Smooth transitions for all interactive elements */
+button,
+input,
+textarea,
+select,
+a {
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+/* Micro-interactions for buttons */
+button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(16, 163, 127, 0.2);
+}
+
 .app-container {
     display: flex;
     height: 100vh;
@@ -308,7 +327,7 @@ a:focus-visible {
     border: 1px solid var(--border-color);
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 0.85em;
     display: flex;
     justify-content: space-between;
@@ -321,6 +340,14 @@ a:focus-visible {
 .history-item:hover {
     background-color: var(--bg-primary);
     border-color: var(--accent);
+    transform: translateX(2px);
+    box-shadow: 0 2px 8px rgba(16, 163, 127, 0.1);
+}
+
+.task-item:focus-within,
+.note-item:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.2);
 }
 
 .task-item.completed {
@@ -484,6 +511,26 @@ a:focus-visible {
     }
 }
 
+/* Bounce animation for new items */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+/* Pulse animation for attention */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
 /* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
     *,
@@ -513,6 +560,13 @@ a:focus-visible {
     border: 1px solid var(--border-color);
     word-wrap: break-word;
     overflow-wrap: break-word;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.bot-message .message-content:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(16, 163, 127, 0.15);
 }
 
 .bot-message {
