@@ -6,7 +6,7 @@ export default [
     files: ["**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: "module",
+      sourceType: "script", // Project uses traditional scripts, not ES modules
       globals: {
         // Browser globals
         window: "readonly",
