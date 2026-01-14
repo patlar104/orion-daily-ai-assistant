@@ -74,11 +74,10 @@ Live: <https://patlar104.github.io/orion-daily-ai-assistant/>
 2. **Start a local server**
 
    ```bash
-   # Using Python 3
-   python3 -m http.server 8000
+   # Using npm (recommended)
+   npm run serve
    
-   # Or using Node.js
-   npx serve
+   # Or using VS Code task (Cmd+Shift+B)
    ```
 
 3. **Open in browser**
