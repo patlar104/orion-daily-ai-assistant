@@ -109,16 +109,37 @@ Notes:
 
 ## ✅ Automation & Quality
 
+### Git Hooks (Local Protection)
+
+**Automated enforcement at commit time:**
+
+- **Pre-commit hook** (`.git/hooks/pre-commit`): Scans for API keys and secrets before allowing commits
+- **Commit-msg hook** (`.git/hooks/commit-msg`): Enforces conventional commits format
+- **Commit helper** (`commit-helper.ps1`): Interactive PowerShell tool for creating proper commits
+
+**Usage:**
+
+```powershell
+# Interactive mode (recommended)
+.\commit-helper.ps1 -Interactive
+
+# Quick mode
+.\commit-helper.ps1 -Type feat -Description "add new feature"
+```
+
+### CI/CD Pipeline
+
 - CI checks: Markdown lint, link check, and secret scan on PRs ([.github/workflows/ci.yml](.github/workflows/ci.yml))
 - PR template includes Critic (self‑review) + Reviewer checklists ([.github/PULL_REQUEST_TEMPLATE.md](.github/PULL_REQUEST_TEMPLATE.md))
 - Critic/Reviewer guide with prompt templates ([.github/CRITIC_RULES.md](.github/CRITIC_RULES.md))
 - CODEOWNERS routes reviews to the owner ([.github/CODEOWNERS](.github/CODEOWNERS))
 
-Flow:
+**Flow:**
 
-1. Run through the Critic checklist locally before opening a PR
-2. Open a PR and complete the template checkboxes
-3. CI runs and must pass before merge
+1. Local: Git hooks enforce privacy & commit format
+2. Local: Run through the Critic checklist before opening a PR
+3. Remote: Open a PR and complete the template checkboxes
+4. Remote: CI runs and must pass before merge
 
 ## 📁 Project Structure
 
@@ -127,14 +148,20 @@ project/
 ├── index.html          # Main HTML structure
 ├── style.css           # Premium dark theme CSS
 ├── script.js           # Core application logic + Gemini API
+├── commit-helper.ps1   # Interactive commit tool (conventional commits)
 ├── .gitignore          # Git ignore rules
+├── .git/
+│   └── hooks/
+│       ├── pre-commit  # Privacy shield: blocks API keys
+│       └── commit-msg  # Enforces conventional commits
 ├── .github/
-│   └── workflows/
-│       └── deploy-pages.yml  # GitHub Pages deploy pipeline
+│   ├── workflows/
+│   │   ├── deploy-pages.yml  # GitHub Pages deploy pipeline
+│   │   └── ci.yml            # Lint, link check, secret scan
 │   ├── PULL_REQUEST_TEMPLATE.md  # Critic + Reviewer checklists
 │   ├── CRITIC_RULES.md           # Guide and prompt templates
-│   ├── CODEOWNERS                # Default reviewer
-│   └── workflows/ci.yml          # Lint, link check, secret scan
+│   ├── AI_ASSISTANT_RULES.md     # AI automation guidelines
+│   └── CODEOWNERS                # Default reviewer
 └── README.md           # This file
 ```
 

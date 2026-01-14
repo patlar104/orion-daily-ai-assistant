@@ -229,7 +229,21 @@ Users must update API keys and configuration."
 
 ## 🔍 Pre-Commit Privacy Audit
 
-Run this before committing:
+### Automated Git Hooks (Installed)
+
+**Pre-commit hook** (`.git/hooks/pre-commit`):
+- Automatically scans staged files for API keys and secrets
+- Blocks commits containing sensitive data
+- Runs before every commit
+
+**Commit-msg hook** (`.git/hooks/commit-msg`):
+- Validates commit message format (conventional commits)
+- Ensures consistency across the project
+- Provides helpful error messages
+
+### Manual Privacy Scan
+
+Run this before committing for extra verification:
 
 ```bash
 # Search for potential API keys
@@ -243,6 +257,18 @@ git diff --cached | grep -i "password"
 
 # Verify .gitignore is working
 git status --ignored
+```
+
+### Using Commit Helper
+
+Instead of manual `git commit`, use the interactive helper:
+
+```powershell
+# Interactive mode (walks you through the process)
+.\commit-helper.ps1 -Interactive
+
+# Quick mode
+.\commit-helper.ps1 -Type feat -Description "add task filtering"
 ```
 
 ---
