@@ -82,6 +82,7 @@ const DOM = {
 
 function init() {
     loadFromLocalStorage();
+    initTheme();
     setupEventListeners();
     updateUI();
     checkAPIKey();
@@ -89,6 +90,48 @@ function init() {
     renderNotes();
     renderHistory();
 }
+
+// ============================================
+// THEME MANAGEMENT
+// ============================================
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
+    
+    applyTheme(theme);
+    
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        const newTheme = e.matches ? 'dark' : 'light';
+        applyTheme(newTheme);
+        DOM.darkModeToggle.checked = newTheme === 'dark';
+    });
+}
+
+function applyTheme(theme) {
+    const html = document.documentElement;
+    
+    if (theme === 'light') {
+        html.setAttribute('data-theme', 'light');
+    } else {
+        html.removeAttribute('data-theme');
+    }
+    
+    localStorage.setItem('theme', theme);
+    DOM.darkModeToggle.checked = theme === 'dark';
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+}
+
+// ============================================
+// EVENT LISTENERS
+// ============================================
 
 function setupEventListeners() {
     // Sidebar Toggle
@@ -183,6 +226,7 @@ function setupEventListeners() {
     DOM.closeSettingsBtn.addEventListener('click', closeSettings);
     DOM.modalOverlay.addEventListener('click', closeSettings);
     DOM.saveSettingsBtn.addEventListener('click', saveSettings);
+    DOM.darkModeToggle.addEventListener('change', toggleTheme);
     DOM.newChatBtn.addEventListener('click', clearChat);
     
     // Escape key to close modal
@@ -689,6 +733,9 @@ function closeSettings() {
 function saveSettings() {
     CONFIG.GEMINI_API_KEY = DOM.apiKeyInput.value.trim();
     localStorage.setItem('GEMINI_API_KEY', CONFIG.GEMINI_API_KEY);
+    
+    // Theme is handled by toggleTheme event listener
+    
     closeSettings();
     checkAPIKey();
     updateUI();

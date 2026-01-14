@@ -17,6 +17,25 @@
     --focus-outline-offset: 2px;
 }
 
+/* Light Mode Theme */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-tertiary: #efefef;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-tertiary: #999999;
+    --accent: #10a37f;
+    --accent-light: #1db584;
+    --accent-dark: #088866;
+    --border-color: #e0e0e0;
+    --success: #34c759;
+    --warning: #ff9500;
+    --error: #ff3b30;
+    --info: #3b82f6;
+    --focus-outline: 2px solid #10a37f;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -31,6 +50,7 @@ body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ===== ACCESSIBILITY ===== */
