@@ -71,7 +71,23 @@ Live: <https://patlar104.github.io/orion-daily-ai-assistant/>
    cd project
    ```
 
-2. **Start a local server**
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Setup git hooks** (optional but recommended)
+
+   ```bash
+   ./.githooks/install.sh
+   ```
+   
+   This installs:
+   - Privacy Shield (blocks exposed secrets)
+   - Conventional Commits (enforces commit format)
+
+4. **Start a local server**
 
    ```bash
    # Using npm (recommended)
@@ -80,7 +96,7 @@ Live: <https://patlar104.github.io/orion-daily-ai-assistant/>
    # Or using VS Code task (Cmd+Shift+B)
    ```
 
-3. **Open in browser**
+5. **Open in browser**
 
    ```
    http://localhost:8000

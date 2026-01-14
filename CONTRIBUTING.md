@@ -9,6 +9,14 @@ Thank you for your interest in contributing! This project uses an optimized AI a
 ### Development
 
 ```bash
+# Clone and setup
+git clone <repository-url>
+cd orion-daily-ai-assistant
+npm install
+
+# Install git hooks (recommended)
+./.githooks/install.sh
+
 # Start local server
 Cmd+Shift+B    # or npm run serve
 
