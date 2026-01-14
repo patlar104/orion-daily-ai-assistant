@@ -24,6 +24,8 @@ const state = {
     messages: [],
     currentFilter: 'all',
     sidebarOpen: false,
+    messageCache: new Map(), // Cache for API responses
+    lastRequestTime: 0,
 };
 
 // ============================================
@@ -89,6 +91,31 @@ function init() {
     renderTasks();
     renderNotes();
     renderHistory();
+}
+
+// ============================================
+// PERFORMANCE UTILITIES
+// ============================================
+
+// Debounce function for performance optimization
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Auto-resize textarea as user types
+function autoResizeTextarea() {
+    const textarea = DOM.chatInput;
+    textarea.style.height = 'auto';
+    const newHeight = Math.min(textarea.scrollHeight, 120); // Max 120px
+    textarea.style.height = newHeight + 'px';
 }
 
 // ============================================
@@ -209,6 +236,9 @@ function setupEventListeners() {
         e.preventDefault();
         sendMessage();
     });
+    
+    // Auto-resize textarea with debouncing and add input event for live resize
+    DOM.chatInput.addEventListener('input', autoResizeTextarea);
     DOM.chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -354,6 +384,9 @@ function renderTasks() {
     
     DOM.taskEmptyState.style.display = 'none';
     
+    // Use DocumentFragment for better performance with bulk DOM updates
+    const fragment = document.createDocumentFragment();
+    
     const tasksByCategory = {};
     state.tasks.forEach(task => {
         if (!tasksByCategory[task.category]) {
@@ -383,10 +416,11 @@ function renderTasks() {
                 </div>
                 <button class="task-delete-btn" data-task-id="${task.id}" aria-label="Delete task: ${escapeHtml(task.text)}">🗑️</button>
             `;
-            tasksList.appendChild(taskEl);
+            fragment.appendChild(taskEl);
         });
     });
     
+    tasksList.appendChild(fragment);
     DOM.sidebarTaskCount.textContent = state.tasks.length;
 }
 
@@ -434,6 +468,9 @@ function renderNotes() {
     
     DOM.noteEmptyState.style.display = 'none';
     
+    // Use DocumentFragment for better performance
+    const fragment = document.createDocumentFragment();
+    
     state.notes.forEach(note => {
         const noteEl = document.createElement('li');
         noteEl.className = 'note-item';
@@ -451,9 +488,10 @@ function renderNotes() {
             </div>
             <button class="note-delete-btn" data-note-id="${note.id}" aria-label="Delete note">✕</button>
         `;
-        notesList.appendChild(noteEl);
+        fragment.appendChild(noteEl);
     });
     
+    notesList.appendChild(fragment);
     DOM.sidebarNoteCount.textContent = state.notes.length;
 }
 
@@ -539,6 +577,19 @@ async function callGeminiAPI(userMessage) {
         throw new Error('API key not configured');
     }
     
+    // Check cache for identical messages (simple deduplication)
+    const cacheKey = userMessage.toLowerCase().trim();
+    if (state.messageCache.has(cacheKey)) {
+        return state.messageCache.get(cacheKey);
+    }
+    
+    // Rate limiting: Prevent rapid consecutive requests
+    const now = Date.now();
+    if (now - state.lastRequestTime < 500) {
+        await new Promise(resolve => setTimeout(resolve, 500 - (now - state.lastRequestTime)));
+    }
+    state.lastRequestTime = Date.now();
+    
     // Build context from tasks and notes
     const context = buildContext();
     
@@ -589,6 +640,13 @@ Be concise, helpful, and actionable. If the user asks about their tasks, provide
         if (!reply) {
             throw new Error('No text content in model response');
         }
+        
+        // Cache the response for performance
+        if (state.messageCache.size > 100) {
+            // Clear cache if it gets too large to prevent memory issues
+            state.messageCache.clear();
+        }
+        state.messageCache.set(cacheKey, reply);
         
         return reply;
     } catch (error) {
@@ -665,17 +723,23 @@ function renderHistory() {
     
     DOM.historyEmptyState.style.display = 'none';
     
+    // Use DocumentFragment for better performance
+    const fragment = document.createDocumentFragment();
+    
     state.chatHistory.slice(-10).reverse().forEach(item => {
-        const historyEl = document.createElement('div');
+        const historyEl = document.createElement('li');
         historyEl.className = 'history-item';
+        historyEl.setAttribute('role', 'listitem');
         const preview = item.message.substring(0, 30) + (item.message.length > 30 ? '...' : '');
         historyEl.innerHTML = `
-            <div style="flex: 1; cursor: pointer;" data-message="${item.message.replace(/"/g, '&quot;')}">
-                ${preview}
+            <div style="flex: 1; cursor: pointer;" data-message="${escapeHtml(item.message).replace(/"/g, '&quot;')}">
+                ${escapeHtml(preview)}
             </div>
         `;
-        historyList.appendChild(historyEl);
+        fragment.appendChild(historyEl);
     });
+    
+    historyList.appendChild(fragment);
 }
 
 function clearHistory() {
