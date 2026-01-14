@@ -19,15 +19,15 @@
 
 ## Critic Self‑Review (author)
 
-- [x] Requirements covered end‑to‑end (no scope gaps)
-- [x] Security reviewed (XSS, secrets, PII, unsafe eval, redirects)
-- [x] Secrets not committed (keys, tokens, passwords)
-- [x] Edge cases handled (empty, long, error paths, offline)
-- [x] Error handling and user feedback are clear
-- [x] Performance reasonable (no obvious N+1 / large payloads)
-- [x] Accessibility considered (labels, contrast, keyboard)
-- [x] Docs updated (README, comments, usage)
-- [x] Deployment notes updated (workflows/Pages if relevant)
+- [ ] Requirements covered end‑to‑end (no scope gaps)
+- [ ] Security reviewed (XSS, secrets, PII, unsafe eval, redirects)
+- [ ] Secrets not committed (keys, tokens, passwords)
+- [ ] Edge cases handled (empty, long, error paths, offline)
+- [ ] Error handling and user feedback are clear
+- [ ] Performance reasonable (no obvious N+1 / large payloads)
+- [ ] Accessibility considered (labels, contrast, keyboard)
+- [ ] Docs updated (README, comments, usage)
+- [ ] Deployment notes updated (workflows/Pages if relevant)
 
 ### Critic Prompt (use when reviewing your diff)
 
@@ -44,11 +44,11 @@ Flag only actionable issues introduced by this diff. For each issue: short expla
 
 ## Reviewer Checklist (peer)
 
-- [x] Diff makes sense; no unintended changes or noise
-- [x] Names, structure, and style match repo conventions
-- [x] Error paths and edge cases covered
-- [x] Security posture unchanged or improved
-- [x] Docs/tests/workflows updated where needed
+- [ ] Diff makes sense; no unintended changes or noise
+- [ ] Names, structure, and style match repo conventions
+- [ ] Error paths and edge cases covered
+- [ ] Security posture unchanged or improved
+- [ ] Docs/tests/workflows updated where needed
 
 ### Reviewer Prompt (optional)
 
