@@ -67,7 +67,7 @@ Run these tasks via Command Palette (`Cmd+Shift+P` → "Tasks: Run Task"):
 ### Development Tasks
 
 1. **Start Local Server** (Default Build Task: `Cmd+Shift+B`)
-   - Starts Python HTTP server on port 8000
+   - Starts Node.js HTTP server on port 8000
    - Access at `http://localhost:8000`
    - Runs in background
 

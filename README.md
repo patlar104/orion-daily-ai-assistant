@@ -71,17 +71,32 @@ Live: <https://patlar104.github.io/orion-daily-ai-assistant/>
    cd project
    ```
 
-2. **Start a local server**
+2. **Install dependencies**
 
    ```bash
-   # Using Python 3
-   python3 -m http.server 8000
-   
-   # Or using Node.js
-   npx serve
+   npm install
    ```
 
-3. **Open in browser**
+3. **Setup git hooks** (optional but recommended)
+
+   ```bash
+   ./.githooks/install.sh
+   ```
+   
+   This installs:
+   - Privacy Shield (blocks exposed secrets)
+   - Conventional Commits (enforces commit format)
+
+4. **Start a local server**
+
+   ```bash
+   # Using npm (recommended)
+   npm run serve
+   
+   # Or using VS Code task (Cmd+Shift+B)
+   ```
+
+5. **Open in browser**
 
    ```
    http://localhost:8000
@@ -284,6 +299,13 @@ We follow [Conventional Commits](https://www.conventionalcommits.org/):
 ## 📄 License
 
 MIT License - feel free to use this project for personal or commercial purposes.
+
+## 📚 Documentation
+
+- [AI Agent Workflow Guide](.github/AI_AGENT_WORKFLOW.md) - Complete workflow reference
+- [Documentation Map](.github/DOCUMENTATION_MAP.md) - Find any documentation
+- [Refactor Summary](REFACTOR_SUMMARY.md) - Recent repository changes
+- [Contributing Guide](CONTRIBUTING.md) - How to contribute
 
 ## 🙏 Acknowledgments
 

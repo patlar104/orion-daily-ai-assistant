@@ -4,7 +4,8 @@
   "description": "A modern, production-ready AI assistant powered by Google's Gemini API. Built with vanilla JavaScript for maximum performance and simplicity.",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "http-server -p 8000 -c-1"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   "homepage": "https://github.com/patlar104/orion-daily-ai-assistant#readme",
   "devDependencies": {
     "eslint": "^9.39.2",
+    "http-server": "^14.1.1",
     "markdownlint-cli2": "^0.20.0"
   }
 }
