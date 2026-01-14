@@ -68,7 +68,10 @@
   "ignores": [
     "**/node_modules/**",
     "**/dist/**",
-    ".github/agents/*.md"  // Agent templates have intentional duplicate headings
+    ".github/agents/*.md",               // Agent templates (intentional duplicate headings)
+    "!.github/agents/README.md",         // Exception: User-facing agents overview
+    "*SUMMARY.md",                        // Internal summary/log files (not user-facing)
+    "*-quick-ref.md"                      // Archived quick reference files
   ],
   
   // File-specific overrides
