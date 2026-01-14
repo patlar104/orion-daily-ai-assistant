@@ -439,3 +439,55 @@ git log -1 --stat
 
 **These rules are MANDATORY for every code change.**
 **Privacy Shield is NON-NEGOTIABLE - ALWAYS check first.**
+
+---
+
+## 🛠️ RULE 14: Proper Tool Usage (Context7 Research)
+
+### File Operations Best Practices
+
+**Source:** `/microsoft/vscode-docs`, `/github/github-mcp-server`
+
+### ✅ Use These Tools:
+
+**Local file editing:**
+```javascript
+// Single edit
+replace_string_in_file({
+  filePath: '/path/to/file',
+  oldString: '...existing...',
+  newString: '...updated...'
+});
+
+// Multiple edits (efficient)
+multi_replace_string_in_file({
+  replacements: [...]
+});
+```
+
+**Repository operations:**
+- GitHub MCP `create_or_update_file` - Remote file changes
+- GitHub MCP `push_files` - Batch commits
+
+**Git hooks:**
+- Edit files in `.githooks/` directory
+- Run `.githooks/install.sh` to deploy to `.git/hooks/`
+- Version controlled and reviewable
+
+### ❌ Never Use These:
+
+**Problematic patterns:**
+- ❌ Python: `cat > file.md << EOF`, `python3 -c "..."`
+- ❌ Shell: `echo >> file`, `printf >> file`, heredoc
+- ❌ Direct `.git/hooks/` editing
+
+**Why these fail:**
+1. Bypass VS Code file watcher → No change detection
+2. No undo/redo → Can't revert mistakes  
+3. No syntax validation → Errors found late
+4. Harder debugging → Issues hidden
+5. Breaks editor context → IntelliSense fails
+
+### Refactor Summary Reference:
+
+All file operations patterns fixed in refactor. See: [REFACTOR_SUMMARY.md](../REFACTOR_SUMMARY.md) for details.
