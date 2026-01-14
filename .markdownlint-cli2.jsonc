@@ -29,7 +29,20 @@
     
     // https://github.com/DavidAnson/markdownlint/blob/main/doc/md024.md
     "MD024": {               // Multiple headings with same content - allow at different nesting
-      "allow_different_nesting": true
+      "siblings_only": true   // Only flag duplicates at same level (not across different sections)
+    },
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md012.md
+    "MD012": {               // Multiple consecutive blank lines
+      "maximum": 2           // Allow up to 2 blank lines for visual separation in long docs
+    },
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md009.md
+    "MD009": false,          // Trailing spaces - disabled (conflicts with line breaks in templates)
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md029.md
+    "MD029": {               // Ordered list item prefix
+      "style": "one_or_ordered"  // Allow either style (consistent within list)
     },
     
     // === Code Block Rules ===
@@ -54,14 +67,15 @@
   // Ignore patterns
   "ignores": [
     "**/node_modules/**",
-    "**/dist/**"
+    "**/dist/**",
+    ".github/agents/*.md"  // Agent templates have intentional duplicate headings
   ],
   
   // File-specific overrides
   "customRules": [],
   
   // Automatically fix issues when possible
-  "fix": false,
+  "fix": true,
   
   // Respect .gitignore patterns
   "gitignore": true

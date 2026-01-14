@@ -78,29 +78,29 @@ Run these tasks via Command Palette (`Cmd+Shift+P` → "Tasks: Run Task"):
 
 ### Quality Assurance Tasks
 
-3. **Privacy Shield Scan**
+1. **Privacy Shield Scan**
    - Scans for hardcoded API keys/secrets
    - Blocks commits with exposed credentials
    - Run before committing sensitive changes
 
-4. **Lint JavaScript**
+2. **Lint JavaScript**
    - Checks `script.js` for code quality issues
    - Uses ESLint with best practices
    - Shows problems in Problems panel
 
-5. **Lint Markdown**
+3. **Lint Markdown**
    - Validates all `.md` files
    - Ensures documentation quality
    - Checks links and formatting
 
-6. **Run All Quality Checks** (Default Test Task: `Cmd+Shift+T`)
+4. **Run All Quality Checks** (Default Test Task: `Cmd+Shift+T`)
    - Runs Privacy Shield + JavaScript lint + Markdown lint
    - Comprehensive pre-commit verification
    - Use before opening PRs
 
 ### Git Tasks
 
-7. **Interactive Commit**
+1. **Interactive Commit**
    - Opens commit helper with templates
    - Guides conventional commit format
    - Includes privacy checks
