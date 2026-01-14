@@ -1,6 +1,14 @@
-# Commit Message Templates
+# Commit & Planning Templates
 
-## Feature Addition
+This file contains helpful templates for commits and planning. These are integrated into the AI agent workflow.
+
+**👉 See:** [AI Agent Workflow Guide](AI_AGENT_WORKFLOW.md) for commit examples
+
+---
+
+## Commit Message Templates
+
+### Feature Addition
 ```
 feat(<scope>): <short description>
 
@@ -14,7 +22,7 @@ Changes:
 Related: <issue/PR if any>
 ```
 
-## Bug Fix
+### Bug Fix
 ```
 fix(<scope>): <short description>
 
@@ -26,7 +34,7 @@ Solution: <how it was fixed>
 Fixes #<issue-number>
 ```
 
-## Documentation Update
+### Documentation Update
 ```
 docs(<scope>): <what was documented>
 
@@ -37,7 +45,7 @@ Updated sections:
 - <Section 2>
 ```
 
-## Performance Improvement
+### Performance Improvement
 ```
 perf(<scope>): <short description>
 
@@ -53,7 +61,7 @@ Changes:
 - <Optimization 2>
 ```
 
-## Refactoring
+### Refactoring
 ```
 refactor(<scope>): <short description>
 
@@ -66,7 +74,7 @@ Changes:
 Note: No functional changes, tests still pass
 ```
 
-## Breaking Change
+### Breaking Change
 ```
 feat(<scope>)!: <short description>
 
@@ -82,7 +90,7 @@ Migration guide:
 Affected: <who/what is affected>
 ```
 
-## Chore/Maintenance
+### Chore/Maintenance
 ```
 chore(<scope>): <short description>
 
@@ -125,47 +133,6 @@ Update relevant section with:
 ```markdown
 **Fixed in v<version>:**
 - ✅ <Bug description> - Now works correctly
-```
-
----
-
-## Pre-Commit Checklist Template
-
-```markdown
-## Pre-Commit Checklist
-
-### Security ✅
-- [ ] No API keys in code (scanned by hook)
-- [ ] No hardcoded secrets
-- [ ] Sensitive files in .gitignore
-- [ ] XSS protection in place (if user input)
-
-### Code Quality ✅
-- [ ] Code tested in browser
-- [ ] No console.log() statements
-- [ ] Error handling implemented
-- [ ] Loading states for async operations
-- [ ] Edge cases handled
-
-### Documentation ✅
-- [ ] README updated (if features changed)
-- [ ] Inline comments for complex logic
-- [ ] Function JSDoc comments added
-- [ ] API changes documented
-
-### Git Hygiene ✅
-- [ ] Commit message follows conventional commits
-- [ ] Only related files staged
-- [ ] .gitignore updated (if needed)
-- [ ] No merge conflicts
-- [ ] Commits are atomic (one logical change)
-
-### Testing ✅
-- [ ] Tested in Chrome
-- [ ] Tested in Firefox (if significant change)
-- [ ] Tested on mobile view (if UI change)
-- [ ] localStorage working correctly
-- [ ] API integration working
 ```
 
 ---
@@ -221,7 +188,7 @@ feat(<scope>): <description>
 
 ---
 
-## Self-Review Template (Critic Loop)
+## Self-Review Checklist (Critic Loop)
 
 ```markdown
 ## 🔍 Self-Review Checklist
@@ -283,3 +250,8 @@ All issues resolved: [ ]
 ### Testing Notes
 <How to test this change>
 ```
+
+---
+
+**For more examples, see:** [AI Agent Workflow Guide](AI_AGENT_WORKFLOW.md#commit-types-reference)
+

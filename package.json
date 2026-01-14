@@ -1,0 +1,24 @@
+{
+  "name": "project",
+  "version": "1.0.0",
+  "description": "A modern, production-ready AI assistant powered by Google's Gemini API. Built with vanilla JavaScript for maximum performance and simplicity.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patlar104/orion-daily-ai-assistant.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/patlar104/orion-daily-ai-assistant/issues"
+  },
+  "homepage": "https://github.com/patlar104/orion-daily-ai-assistant#readme",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "markdownlint-cli2": "^0.20.0"
+  }
+}

@@ -1,19 +1,68 @@
 {
   // markdownlint-cli2 configuration
+  // Documentation: https://github.com/DavidAnson/markdownlint-cli2
+  // Rule reference: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+  
   "config": {
-    "MD013": false,          // line length
-    "MD022": false,          // blank lines around headings
-    "MD026": false,          // trailing punctuation in headings
-    "MD031": false,          // blank lines around code fences
-    "MD032": false,          // blank lines around lists
-    "MD033": false,          // inline HTML in Markdown
-    "MD041": false,          // first line = H1 (our badges precede headings)
-    "MD024": {               // allow same heading text at different nesting
+    // === Layout & Formatting Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md013.md
+    "MD013": false,          // Line length - disabled for flexibility in docs/templates
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md022.md
+    "MD022": false,          // Blank lines around headings - relaxed for compact formatting
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md026.md
+    "MD026": false,          // Trailing punctuation in headings - allow for emphasis
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md031.md
+    "MD031": false,          // Blank lines around code fences - relaxed for tight formatting
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md032.md
+    "MD032": false,          // Blank lines around lists - relaxed for compact lists
+    
+    // === Content Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md033.md
+    "MD033": false,          // Inline HTML - allowed for badges, GitHub features
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md041.md
+    "MD041": false,          // First line must be H1 - disabled (badges precede headings)
+    
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md024.md
+    "MD024": {               // Multiple headings with same content - allow at different nesting
       "allow_different_nesting": true
-    }
+    },
+    
+    // === Code Block Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md040.md
+    "MD040": false,          // Fenced code blocks language - disabled (docs use plain text examples)
+    
+    // === Heading Style Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md036.md
+    "MD036": false,          // Emphasis used as heading - disabled (templates use emphasis for steps)
+    
+    // === Document Structure Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md025.md
+    "MD025": {               // Multiple top-level headings - allow for template files
+      "front_matter_title": ""
+    },
+    
+    // === Table Rules ===
+    // https://github.com/DavidAnson/markdownlint/blob/main/doc/md060.md
+    "MD060": false           // Table column style - disabled (auto-formatter handles this)
   },
+  
+  // Ignore patterns
   "ignores": [
     "**/node_modules/**",
     "**/dist/**"
-  ]
+  ],
+  
+  // File-specific overrides
+  "customRules": [],
+  
+  // Automatically fix issues when possible
+  "fix": false,
+  
+  // Respect .gitignore patterns
+  "gitignore": true
 }

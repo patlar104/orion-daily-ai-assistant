@@ -107,7 +107,42 @@ Notes:
 - Secrets aren't required because everything is static and client-side.
 - If you change the default branch, update `branches: ["main"]` in `.github/workflows/deploy-pages.yml`.
 
+## 🤖 AI Agent Workflow (Optimized)
+
+**Your workspace is now configured for optimal AI agent collaboration!**
+
+### What's Configured
+
+- ✅ **MCP Servers** - Context7, GitHub, Markitdown, Playwright (auto-started)
+- ✅ **Privacy Shield** - Automatic secret scanning before commits
+- ✅ **Conventional Commits** - Automated commit message generation
+- ✅ **Code Quality** - ESLint + Markdownlint integration
+- ✅ **Documentation** - Auto-updated README and inline comments
+- ✅ **VS Code Tasks** - One-command dev server, linting, security checks
+
+### Quick Start with AI Agent
+
+```bash
+# Start local development (Cmd+Shift+B)
+→ Launches server on port 8000
+
+# Run quality checks (Cmd+Shift+T)
+→ Privacy scan + ESLint + Markdown lint
+
+# Ask for features naturally
+"Add task filtering by category"
+→ AI researches best practices (Context7)
+→ Implements with proper patterns
+→ Updates documentation
+→ Generates conventional commit
+```
+
+**See [AI Agent Workflow Guide](.github/AI_AGENT_WORKFLOW.md) for complete details.**
+
+---
+
 ## ✅ Automation & Quality
+
 
 ### Git Hooks (Local Protection)
 
