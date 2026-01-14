@@ -13,6 +13,8 @@
     --warning: #ff9500;
     --error: #ff3b30;
     --info: #3b82f6;
+    --focus-outline: 2px solid #10a37f;
+    --focus-outline-offset: 2px;
 }
 
 * {
@@ -29,6 +31,62 @@ body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
+}
+
+/* ===== ACCESSIBILITY ===== */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--accent);
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 10000;
+    border-radius: 0 0 4px 0;
+    transition: top 0.2s;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Enhanced Focus Styles for Keyboard Navigation */
+*:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    :root {
+        --border-color: #666;
+        --text-secondary: #ddd;
+    }
 }
 
 .app-container {
@@ -63,11 +121,21 @@ body {
     font-weight: 600;
     cursor: pointer;
     font-size: 0.9em;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .new-chat-btn:hover {
     background-color: var(--accent-light);
+}
+
+.new-chat-btn:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+    transform: translateY(-1px);
+}
+
+.new-chat-btn:active {
+    transform: translateY(0);
 }
 
 /* Sidebar Tabs */
@@ -97,7 +165,18 @@ body {
     color: var(--text-primary);
 }
 
+.tab-btn:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+}
+
 .tab-btn.active {
+    background-color: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.tab-btn[aria-selected="true"] {
     background-color: var(--accent);
     color: white;
     border-color: var(--accent);
@@ -139,11 +218,22 @@ body {
     padding: 4px 8px;
     border-radius: 4px;
     transition: all 0.2s;
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .icon-btn:hover {
     background-color: var(--bg-tertiary);
     color: var(--accent);
+}
+
+.icon-btn:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: var(--focus-outline-offset);
+    background-color: var(--bg-tertiary);
 }
 
 /* Task List */
@@ -371,6 +461,18 @@ body {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }
 

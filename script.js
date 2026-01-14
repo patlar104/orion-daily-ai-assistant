@@ -94,9 +94,33 @@ function setupEventListeners() {
     // Sidebar Toggle
     DOM.toggleSidebarBtn.addEventListener('click', toggleSidebar);
     
-    // Tab Switching
-    DOM.tabBtns.forEach(btn => {
+    // Tab Switching with Keyboard Navigation
+    DOM.tabBtns.forEach((btn, index) => {
         btn.addEventListener('click', switchTab);
+        
+        // Keyboard navigation for tabs (Arrow keys)
+        btn.addEventListener('keydown', (e) => {
+            let newIndex = index;
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                newIndex = (index + 1) % DOM.tabBtns.length;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                newIndex = (index - 1 + DOM.tabBtns.length) % DOM.tabBtns.length;
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                newIndex = 0;
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                newIndex = DOM.tabBtns.length - 1;
+            }
+            
+            if (newIndex !== index) {
+                DOM.tabBtns[newIndex].click();
+                DOM.tabBtns[newIndex].focus();
+            }
+        });
     });
     
     // Tasks
@@ -137,8 +161,11 @@ function setupEventListeners() {
         }
     });
     
-    // Chat
-    DOM.sendBtn.addEventListener('click', sendMessage);
+    // Chat - Prevent form submission, handle Shift+Enter
+    DOM.sendBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        sendMessage();
+    });
     DOM.chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -157,6 +184,13 @@ function setupEventListeners() {
     DOM.modalOverlay.addEventListener('click', closeSettings);
     DOM.saveSettingsBtn.addEventListener('click', saveSettings);
     DOM.newChatBtn.addEventListener('click', clearChat);
+    
+    // Escape key to close modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && DOM.settingsModal.style.display === 'block') {
+            closeSettings();
+        }
+    });
     
     // History
     DOM.clearHistoryBtn.addEventListener('click', clearHistory);
@@ -269,6 +303,8 @@ function renderTasks() {
     if (state.tasks.length === 0) {
         DOM.taskEmptyState.style.display = 'block';
         DOM.sidebarTaskCount.textContent = '0';
+        // Announce to screen readers
+        DOM.taskEmptyState.setAttribute('aria-live', 'polite');
         return;
     }
     
@@ -284,22 +320,24 @@ function renderTasks() {
     
     Object.entries(tasksByCategory).forEach(([category, tasks]) => {
         tasks.forEach(task => {
-            const taskEl = document.createElement('div');
+            const taskEl = document.createElement('li');
             taskEl.className = `task-item ${task.completed ? 'completed' : ''}`;
+            taskEl.setAttribute('role', 'listitem');
             taskEl.innerHTML = `
                 <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
                     <input 
                         type="checkbox" 
                         class="task-checkbox"
                         data-task-id="${task.id}"
+                        aria-label="Mark task as ${task.completed ? 'incomplete' : 'complete'}"
                         ${task.completed ? 'checked' : ''}
                     >
                     <div style="flex: 1;">
-                        <div>${task.text}</div>
-                        <small style="opacity: 0.6; font-size: 0.75em;">[${category}] ${task.priority}</small>
+                        <div>${escapeHtml(task.text)}</div>
+                        <small style="opacity: 0.6; font-size: 0.75em;" aria-label="Category ${category}, Priority ${task.priority}">[${category}] ${task.priority}</small>
                     </div>
                 </div>
-                <button class="task-delete-btn" data-task-id="${task.id}">🗑️</button>
+                <button class="task-delete-btn" data-task-id="${task.id}" aria-label="Delete task: ${escapeHtml(task.text)}">🗑️</button>
             `;
             tasksList.appendChild(taskEl);
         });
@@ -353,14 +391,21 @@ function renderNotes() {
     DOM.noteEmptyState.style.display = 'none';
     
     state.notes.forEach(note => {
-        const noteEl = document.createElement('div');
+        const noteEl = document.createElement('li');
         noteEl.className = 'note-item';
+        noteEl.setAttribute('role', 'listitem');
         const preview = note.text.substring(0, 40) + (note.text.length > 40 ? '...' : '');
+        const escapedText = escapeHtml(note.text);
         noteEl.innerHTML = `
-            <div style="flex: 1; cursor: pointer; padding: 5px;" data-message="Summarize this note: &quot;${note.text.replace(/"/g, '\\"')}&quot;">
-                ${preview}
+            <div style="flex: 1; cursor: pointer; padding: 5px;" 
+                 data-message="Summarize this note: &quot;${escapedText.replace(/"/g, '\\"')}&quot;"
+                 role="button"
+                 tabindex="0"
+                 aria-label="Click to summarize note: ${escapedText}"
+                 onkeypress="if(event.key==='Enter'||event.key===' ') this.click()">
+                ${escapeHtml(preview)}
             </div>
-            <button class="note-delete-btn" data-note-id="${note.id}">✕</button>
+            <button class="note-delete-btn" data-note-id="${note.id}" aria-label="Delete note">✕</button>
         `;
         notesList.appendChild(noteEl);
     });
@@ -415,14 +460,16 @@ function sendChatMessage(msg) {
 }
 
 function addMessageToChat(content, role) {
-    const messageEl = document.createElement('div');
+    const messageEl = document.createElement('article');
     messageEl.className = `message ${role}-message`;
+    messageEl.setAttribute('role', 'article');
     
     const avatar = role === 'bot' ? '🤖' : '👤';
+    const ariaLabel = role === 'bot' ? 'AI Assistant message' : 'Your message';
     
     messageEl.innerHTML = `
-        <div class="message-avatar">${avatar}</div>
-        <div class="message-content">
+        <div class="message-avatar" aria-hidden="true">${avatar}</div>
+        <div class="message-content" role="document" aria-label="${ariaLabel}">
             <p>${escapeHtml(content)}</p>
         </div>
     `;
@@ -432,6 +479,15 @@ function addMessageToChat(content, role) {
     
     // Auto-scroll to bottom
     DOM.chatMessages.scrollTop = DOM.chatMessages.scrollHeight;
+    
+    // Announce new message to screen readers
+    const announcement = document.createElement('div');
+    announcement.setAttribute('role', 'status');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.className = 'visually-hidden';
+    announcement.textContent = `${role === 'bot' ? 'AI Assistant' : 'You'}: ${content.substring(0, 100)}`;
+    document.body.appendChild(announcement);
+    setTimeout(() => announcement.remove(), 1000);
 }
 
 async function callGeminiAPI(userMessage) {
@@ -592,13 +648,42 @@ function clearHistory() {
 
 function openSettings() {
     DOM.settingsModal.style.display = 'block';
+    DOM.settingsModal.removeAttribute('hidden');
     DOM.modalOverlay.style.display = 'block';
+    DOM.modalOverlay.removeAttribute('hidden');
     DOM.apiKeyInput.value = CONFIG.GEMINI_API_KEY || '';
+    
+    // Focus management for accessibility
+    DOM.apiKeyInput.focus();
+    
+    // Trap focus within modal
+    const focusableElements = DOM.settingsModal.querySelectorAll(
+        'button, input, textarea, select, a[href]'
+    );
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+    
+    DOM.settingsModal.addEventListener('keydown', function trapFocus(e) {
+        if (e.key !== 'Tab') return;
+        
+        if (e.shiftKey && document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+        } else if (!e.shiftKey && document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+        }
+    });
 }
 
 function closeSettings() {
     DOM.settingsModal.style.display = 'none';
+    DOM.settingsModal.setAttribute('hidden', '');
     DOM.modalOverlay.style.display = 'none';
+    DOM.modalOverlay.setAttribute('hidden', '');
+    
+    // Return focus to settings button
+    DOM.settingsBtn.focus();
 }
 
 function saveSettings() {
@@ -625,19 +710,38 @@ function checkAPIKey() {
 }
 
 function switchTab(e) {
-    DOM.tabBtns.forEach(btn => btn.classList.remove('active'));
+    // Update ARIA states for tabs
+    DOM.tabBtns.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+        btn.setAttribute('tabindex', '-1');
+    });
+    
     e.target.classList.add('active');
+    e.target.setAttribute('aria-selected', 'true');
+    e.target.setAttribute('tabindex', '0');
     
     const tabName = e.target.dataset.tab;
     const panels = document.querySelectorAll('.sidebar-panel');
-    panels.forEach(panel => panel.classList.remove('active'));
     
-    document.getElementById(`${tabName}Panel`).classList.add('active');
+    // Update panels with proper ARIA and hidden states
+    panels.forEach(panel => {
+        panel.classList.remove('active');
+        panel.setAttribute('hidden', '');
+    });
+    
+    const activePanel = document.getElementById(`${tabName}Panel`);
+    activePanel.classList.add('active');
+    activePanel.removeAttribute('hidden');
+    activePanel.focus();
 }
 
 function toggleSidebar() {
     DOM.sidebar.classList.toggle('open');
     state.sidebarOpen = !state.sidebarOpen;
+    
+    // Update ARIA expanded state
+    DOM.toggleSidebarBtn.setAttribute('aria-expanded', state.sidebarOpen ? 'true' : 'false');
 }
 
 function updateUI() {
