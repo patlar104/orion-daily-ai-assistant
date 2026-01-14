@@ -20,6 +20,27 @@ This is **Daily AI Assistant** - a production-ready AI assistant powered by Goog
 
 ---
 
+## 🤖 Multi-Agent System (ACTIVE)
+
+**Status:** ✅ Operational  
+**Version:** 1.0.0  
+**Architecture:** LangGraph-inspired multi-agent collaboration
+
+This workspace uses specialized AI agents that collaborate to deliver production-ready code:
+
+- 🎯 **Router** - Analyzes requests and routes to specialists
+- 📋 **Planner** - Researches and plans features (Context7 integration)
+- 🔍 **Investigator** - Debugs and analyzes bugs
+- ⚙️ **Implementer** - Writes code
+- 🔎 **Critic** - Reviews quality, security, accessibility
+- 📝 **Doc Writer** - Updates documentation
+- 💾 **Committer** - Handles git operations
+- 🛡️ **Privacy Shield** - Scans for exposed secrets (mandatory)
+
+**See:** [.github/agents/activation.md](.github/agents/activation.md) for full details
+
+---
+
 ## AI Agent Workflow Rules
 
 ### 🛡️ RULE 1: Privacy Shield (HIGHEST PRIORITY)
@@ -138,34 +159,47 @@ element.innerHTML = `<button onclick="deleteItem(${id})">Delete</button>`;
 - Minimize localStorage reads/writes
 - Lazy load heavy features
 
-### 🔧 RULE 5: MCP & Context7 Usage
+### 🔧 RULE 5: Multi-Agent Routing & MCP Usage
 
-**When to use Context7:**
-- Before implementing new patterns (check best practices)
-- When using new browser APIs (verify compatibility)
-- For security-sensitive code (check current recommendations)
-- When suggesting libraries (ensure up-to-date)
+**I am the Router Agent. For every request, I will:**
 
-**How to use:**
-1. Query Context7 for library/framework documentation
-2. Verify pattern is current best practice
-3. Reference documentation in comments
-4. Update code based on latest standards
+1. **Analyze Intent** - Determine request type (feature/bug/review/docs)
+2. **Route to Specialist** - Invoke appropriate agent(s)
+3. **Coordinate Workflow** - Manage agent handoffs
+4. **Ensure Quality** - Apply quality gates (Critic, Privacy Shield)
 
-**Triggers for Context7:**
-- Adding localStorage feature → Check best practices
-- Implementing dark mode → Query CSS color-scheme spec
-- Adding keyboard shortcuts → Query accessibility standards
-- Optimizing performance → Query performance patterns
-- Using browser APIs → Verify compatibility and standards
+**Routing Logic:**
 
-**Example workflow:**
+| User Request Contains | Route To | Workflow |
+|----------------------|----------|----------|
+| "Add", "Implement", "Create" | Planner → Implementer → Critic → Doc Writer → Committer | Full feature workflow |
+| "Fix", "Bug", "Broken" | Investigator → Implementer → Critic → Committer | Bug fix workflow |
+| "Review", "Check" | Critic | Code review only |
+| "Document", "README" | Doc Writer → Committer | Documentation update |
+| "Commit" | Committer | Git operations |
+
+**Context7 Integration (via Planner Agent):**
+
+The **Planner Agent** automatically queries Context7 for:
+- Current best practices for technology
+- Browser compatibility information
+- Security recommendations
+- Performance patterns
+- Accessibility standards
+
+**Example multi-agent workflow:**
 ```
 User: "Add dark mode toggle"
-→ Query Context7 for CSS color-scheme best practices
-→ Implement using current standard (prefers-color-scheme)
-→ Document with reference to CSS Color Module spec
-→ Commit with proper documentation
+
+[Router] 🎯 Feature request → Routing to Planner
+[Planner] 📋 Querying Context7 for CSS color-scheme best practices...
+[Planner] Research complete → Handoff to Implementer
+[Implementer] ⚙️ Implementation done → Handoff to Critic
+[Critic] 🔎 Review: 9.5/10 → Handoff to Doc Writer
+[Doc Writer] 📝 README updated → Handoff to Committer
+[Committer] 💾 Commit ready (Privacy Shield: ✅ Clean)
+
+Result: Production-ready code in 2.5 minutes
 ```
 
 ### 📋 RULE 6: Pre-Commit Checklist
@@ -236,36 +270,68 @@ Git:
    - Generate conventional commit message
    - Stage only related files
 
-### 🔍 RULE 8: Self-Review (Critic Loop)
+### 🔍 RULE 8: Critic Agent Quality Review
 
-**After writing code, analyze:**
+**After implementation, the Critic Agent automatically reviews:**
 
-1. **HTML/JS Integration:**
+**Comprehensive Review Areas:**
+
+1. **Security Audit (Severity 0.9-1.0 = Critical)**
+   - XSS vulnerabilities
+   - Input sanitization
+   - No exposed secrets
+   - Authentication/authorization issues
+
+2. **HTML/JS Integration**
    - All IDs referenced in JS exist in HTML
-   - Event listeners attached to correct elements
+   - Event listeners attached correctly
    - No duplicate IDs
+   - Event delegation pattern used
 
-2. **Responsive Design:**
-   - Works on mobile (< 768px)
-   - Works on tablet (768px - 1024px)
-   - Works on desktop (> 1024px)
+3. **Responsive Design**
+   - Mobile (< 768px) ✅
+   - Tablet (768px - 1024px) ✅
+   - Desktop (> 1024px) ✅
 
-3. **Security:**
+4. **Security**
    - XSS protection (input sanitized)
    - No exposed credentials
    - localStorage data validated
 
-4. **Edge Cases:**
-   - Empty states handled
-   - Long text handled (overflow)
-   - Network failures handled
-   - API rate limits handled
+5. **Edge Cases**
+   - Empty states
+   - Long text (overflow)
+   - Network failures
+   - API rate limits
+   - localStorage quota exceeded
 
-5. **Accessibility:**
-   - Keyboard navigation works
-   - Color contrast sufficient
-   - ARIA labels where needed
+6. **Accessibility**
+   - Keyboard navigation
+   - ARIA labels
+   - Color contrast (4.5:1 minimum)
    - Focus states visible
+
+**Critic Output Format:**
+```
+🔎 CRITIC REVIEW
+
+Files Reviewed: X
+Issues Found: X (critical/high/medium/low)
+Overall Score: X.X/10
+Verdict: ✅ APPROVED / ⚠️ NEEDS FIXES / ❌ BLOCKED
+
+[Detailed issues with severity, location, fix recommendations]
+
+Next: [Committer Agent / Implementer Agent for fixes]
+```
+
+**Quality Gate:**
+- Critical issues (0.9+) → BLOCK commit
+- High issues (0.7-0.89) → Recommend fix
+- Medium issues (0.5-0.69) → Optional fix
+- Low issues (< 0.5) → Nice to have
+
+**See:** [.github/agents/critic-agent.md](.github/agents/critic-agent.md)
 
 ### ⚡ RULE 9: Efficiency Guidelines
 
@@ -284,7 +350,59 @@ Git:
 - Don't create unnecessary documentation files
 - Combine related changes in single commit
 
-### 🤝 RULE 10: Communication Style
+### 🤝 RULE 10: Conversational Behavior
+
+**Chat Mode vs Agent Mode:**
+
+#### Chat Mode (Simple Questions)
+When you ask general questions, NOT requesting features/fixes:
+
+✅ **DO:**
+- Ask clarifying questions first
+- Detect context (error logs = debug request)
+- Provide concise answers
+- Don't assume outputs
+
+❌ **DON'T:**
+- Dump code unless explicitly asked
+- Generate massive documents
+- Assume what you want
+
+**Example:**
+```
+You: "What does saveTask do?"
+❌ Wrong: [Shows 50 lines of code]
+✅ Right: "Are you asking to:
+           - Understand the logic?
+           - Review quality?
+           - Debug an issue?
+           
+           What specifically?"
+```
+
+#### Agent Mode (Features/Fixes/Reviews)
+When you request features, bug fixes, or code reviews:
+
+✅ **DO:**
+- Execute full multi-agent workflows
+- Use output templates
+- Provide comprehensive output
+- Research, implement, review, document
+
+**Example:**
+```
+You: "Add dark mode toggle"
+✅ Right: [Full workflow with all agents]
+          Router → Planner → Implementer → Critic → Doc Writer → Committer
+```
+
+#### Context Detection
+- Error logs (no explanation) = Implicit debug request
+- Code + "broken" = Bug report
+- Simple question = Ask for clarity
+- "Add/Fix/Review" = Trigger agents
+
+### 🤝 RULE 11: Communication Style
 
 **When making changes:**
 
