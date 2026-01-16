@@ -76,7 +76,7 @@ Live: <https://patlar104.github.io/orion-daily-ai-assistant/>
    ```bash
    # Using Python 3
    python3 -m http.server 8000
-   
+
    # Or using Node.js
    npx serve
    ```
@@ -93,6 +93,16 @@ Live: <https://patlar104.github.io/orion-daily-ai-assistant/>
    - Click Save
 
 That's it! Start chatting with your AI assistant.
+
+## 🧠 Copilot & GitHub Setup
+
+1. Copy env template: `cp .env.example .env`
+2. Add tokens: set `GITHUB_TOKEN` (scopes: repo, read:user, user:email) and your `GEMINI_API_KEY`
+3. Reload VS Code: `Cmd+Shift+P → Reload Window` to refresh indexing/Copilot
+
+- MCP servers (Context7, GitHub, filesystem) are defined in [.vscode/mcp.json](.vscode/mcp.json) and auto-start with indexing that excludes `node_modules`, `.git`, and `.DS_Store`.
+- Helper tasks: **Setup GitHub Token** and **Reload VS Code (Reset Indexing)** are available in the VS Code task runner.
+- See the consolidated guide in [.github/copilot-instructions.md](.github/copilot-instructions.md) for usage tips, sample prompts, troubleshooting, and a quick verification checklist.
 
 ## 📦 Deployment (GitHub Pages)
 
@@ -142,7 +152,6 @@ Notes:
 ---
 
 ## ✅ Automation & Quality
-
 
 ### Git Hooks (Local Protection)
 
@@ -216,10 +225,10 @@ Edit [script.js](script.js#L6-L13) to customize:
 
 ```javascript
 const CONFIG = {
-    GEMINI_API_KEY: '',  // Set via Settings UI or here
-    GEMINI_MODEL: 'gemini-2.0-flash',  // Change model here
-    GEMINI_API_URL: 'https://generativelanguage.googleapis.com/v1/models',
-    // ... other settings
+  GEMINI_API_KEY: '', // Set via Settings UI or here
+  GEMINI_MODEL: 'gemini-2.0-flash', // Change model here
+  GEMINI_API_URL: 'https://generativelanguage.googleapis.com/v1/models',
+  // ... other settings
 };
 ```
 

@@ -73,15 +73,30 @@
     },
     {
       "label": "Run All Quality Checks",
-      "dependsOn": [
-        "Privacy Shield Scan",
-        "Lint JavaScript",
-        "Lint Markdown"
-      ],
+      "dependsOn": ["Privacy Shield Scan", "Lint JavaScript", "Lint Markdown"],
       "problemMatcher": [],
       "group": {
         "kind": "test",
         "isDefault": true
+      }
+    },
+    {
+      "label": "Setup GitHub Token",
+      "type": "shell",
+      "command": "echo 'Add your GitHub token to .env file'; echo 'Visit: https://github.com/settings/tokens/new'; cat .env.example | head -5",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "group": "test"
+    },
+    {
+      "label": "Reload VS Code (Reset Indexing)",
+      "type": "shell",
+      "command": "echo 'Use Cmd+Shift+P → Reload Window to refresh Copilot indexing'",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
       }
     }
   ]

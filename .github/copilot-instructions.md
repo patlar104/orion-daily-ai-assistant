@@ -5,6 +5,7 @@
 This is **Daily AI Assistant** - a production-ready AI assistant powered by Google's Gemini API. Built with vanilla JavaScript, HTML, and CSS for maximum performance and simplicity.
 
 **Tech Stack:**
+
 - Frontend: Vanilla JavaScript (ES6+)
 - API: Google Gemini API v1 (Gemini 2.0 Flash)
 - Storage: Browser localStorage
@@ -12,6 +13,7 @@ This is **Daily AI Assistant** - a production-ready AI assistant powered by Goog
 - No build tools or frameworks
 
 **Project Goals:**
+
 - Privacy-first (all data local to browser)
 - Zero dependencies for runtime
 - Production-ready code quality
@@ -43,23 +45,91 @@ This workspace uses specialized AI agents that collaborate to deliver production
 
 ## AI Agent Workflow Rules
 
+### 🔗 GitHub + Copilot Setup (Workspace Context)
+
+**Why this matters:** Copilot Chat uses your indexed workspace, terminal logs, and GitHub repo data for accurate answers. Keep these steps done once per machine.
+
+**Quick setup (5 minutes):**
+
+- Copy the template: `cp .env.example .env`
+- Create a GitHub token (scopes: `repo`, `read:user`, `user:email`) and set `GITHUB_TOKEN=...` in `.env`
+- Add your `GEMINI_API_KEY` to `.env`
+- Reload VS Code (`Cmd+Shift+P` → Reload Window) to refresh indexing/tools
+- Optional helper tasks: run **Setup GitHub Token** or **Reload VS Code (Reset Indexing)** from the VS Code tasks list
+
+**MCP servers (auto-start, see .vscode/mcp.json):**
+
+- Context7: current best practices and docs
+- GitHub: repo/PR/issue access (uses `GITHUB_TOKEN`)
+- Filesystem: scoped file access to this workspace
+- Indexing defaults: includes JS/HTML/CSS/MD, excludes `node_modules`, `.git`, `.DS_Store`, logs; max file size 1MB
+
+**Copilot Chat usage:**
+
+- Open chat: `Cmd+Shift+I`; focus: `Cmd+L`
+- Useful mentions: `@workspace` (codebase), `@terminal` (recent errors), `@github` (commits/PRs)
+- Sample prompts: "@workspace explain the Gemini API flow", "@terminal why did localStorage fail?", "@github show recent commits"
+
+**Troubleshooting (fast):**
+
+- Token issues: ensure `GITHUB_TOKEN` in `.env`, then reload VS Code
+- No context/slow indexing: wait ~30s after reload; re-run Reload Window if needed
+- Privacy: `.env` and secrets are excluded from indexing; API keys should live in `.env`
+
+### ⚡ Quick Start (5 minutes)
+
+1. Copy env template: `cp .env.example .env`
+2. Add tokens: `GITHUB_TOKEN` (repo, read:user, user:email) + `GEMINI_API_KEY`
+3. Reload VS Code: `Cmd+Shift+P → Reload Window`
+4. Open Copilot Chat: `Cmd+Shift+I`, ask `@workspace What’s my project structure?`
+5. Wait for indexing once (10–30s on first load)
+
+**Helper tasks (Task Runner):**
+
+- Setup GitHub Token
+- Reload VS Code (Reset Indexing)
+
+### ✅ Verification Checklist
+
+- `.env` contains `GITHUB_TOKEN` and `GEMINI_API_KEY`
+- Copilot Chat opens and returns project files with `@workspace`
+- Indexing excludes `node_modules`, `.git`, `.DS_Store` (see .vscode/mcp.json)
+- GitHub actions succeed when running **Run All Quality Checks** task
+
+### 💬 Copilot Chat Usage Patterns
+
+- Architecture: `@workspace Explain how Gemini API is wired end-to-end.`
+- Debugging: `@terminal Why is localStorage failing?` (paste error)
+- Git history: `@github Show recent commits on main.`
+- Testing: `@workspace Create unit tests for saveTask()`
+- Cross-file flow: `@workspace Trace data from index.html form to localStorage save.`
+
+### 🧭 Architecture (Indexing in one view)
+
+- Source code + docs are indexed; `.env` and secrets are excluded.
+- MCP servers: Context7 (docs), GitHub (PR/commits), Filesystem (workspace access).
+- Copilot tools: codebase indexing, terminal logs, import awareness, project labels, memory.
+- Settings live in `.vscode/settings.json`; indexing scope in `.vscode/mcp.json`.
+
 ### 🛡️ RULE 1: Privacy Shield (HIGHEST PRIORITY)
 
 **BEFORE ANY FILE EDIT OR COMMIT:**
 
 1. **Scan for exposed secrets** using regex patterns:
+
    - Google API keys: `AIza[A-Za-z0-9_-]{35,}`
    - OpenAI keys: `sk-[A-Za-z0-9]{20,}`
    - GitHub tokens: `ghp_[A-Za-z0-9]{36,}`
    - Generic secrets: `(api[_-]?key|secret|password).*[=:]\s*['"'][^'"']{10,}`
 
 2. **If detected, STOP and alert:**
+
    ```
    ⚠️ PRIVACY SHIELD ACTIVATED!
-   
+
    Detected potential API key/secret in: <filename>
    Pattern: <what_was_found>
-   
+
    ACTION: Move to environment variable or Settings UI
    ```
 
@@ -81,6 +151,7 @@ This workspace uses specialized AI agents that collaborate to deliver production
 ```
 
 **Types:**
+
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `docs:` - Documentation only
@@ -91,6 +162,7 @@ This workspace uses specialized AI agents that collaborate to deliver production
 - `chore:` - Maintenance
 
 **Example:**
+
 ```
 feat(tasks): add CSV export functionality
 
@@ -107,12 +179,14 @@ Export tasks to CSV file for backup and analysis.
 **For EVERY feature change:**
 
 1. **Update README.md** with:
+
    - Feature description in Features section
    - Usage examples
    - Configuration options (if any)
    - Code examples if complex
 
 2. **Add inline comments** for:
+
    - Complex logic
    - Non-obvious decisions
    - API integrations
@@ -126,6 +200,7 @@ Export tasks to CSV file for backup and analysis.
 ### 🎯 RULE 4: Code Quality Standards
 
 **Event Handling:**
+
 - ✅ Use event delegation with data attributes
 - ❌ Never use inline `onclick` attributes
 
@@ -143,17 +218,20 @@ element.innerHTML = `<button onclick="deleteItem(${id})">Delete</button>`;
 ```
 
 **Input Sanitization:**
+
 - Always escape user input before inserting into DOM
 - Use `textContent` instead of `innerHTML` for user data
 - Sanitize data from localStorage
 
 **Error Handling:**
+
 - Wrap API calls in try-catch
 - Provide user-friendly error messages
 - Log errors to console for debugging
 - Never expose API keys in errors
 
 **Performance:**
+
 - Debounce rapid events (typing, scrolling)
 - Use DocumentFragment for bulk DOM updates
 - Minimize localStorage reads/writes
@@ -170,17 +248,18 @@ element.innerHTML = `<button onclick="deleteItem(${id})">Delete</button>`;
 
 **Routing Logic:**
 
-| User Request Contains | Route To | Workflow |
-|----------------------|----------|----------|
+| User Request Contains        | Route To                                                | Workflow              |
+| ---------------------------- | ------------------------------------------------------- | --------------------- |
 | "Add", "Implement", "Create" | Planner → Implementer → Critic → Doc Writer → Committer | Full feature workflow |
-| "Fix", "Bug", "Broken" | Investigator → Implementer → Critic → Committer | Bug fix workflow |
-| "Review", "Check" | Critic | Code review only |
-| "Document", "README" | Doc Writer → Committer | Documentation update |
-| "Commit" | Committer | Git operations |
+| "Fix", "Bug", "Broken"       | Investigator → Implementer → Critic → Committer         | Bug fix workflow      |
+| "Review", "Check"            | Critic                                                  | Code review only      |
+| "Document", "README"         | Doc Writer → Committer                                  | Documentation update  |
+| "Commit"                     | Committer                                               | Git operations        |
 
 **Context7 Integration (via Planner Agent):**
 
 The **Planner Agent** automatically queries Context7 for:
+
 - Current best practices for technology
 - Browser compatibility information
 - Security recommendations
@@ -188,6 +267,7 @@ The **Planner Agent** automatically queries Context7 for:
 - Accessibility standards
 
 **Example multi-agent workflow:**
+
 ```
 User: "Add dark mode toggle"
 
@@ -236,9 +316,10 @@ Git:
 **When adding a new feature:**
 
 1. **Planning Phase:**
+
    ```
    📋 FEATURE PLAN:
-   
+
    Feature: <name>
    Type: feat/fix/refactor
    Scope: <area>
@@ -247,18 +328,21 @@ Git:
    ```
 
 2. **Research Phase:**
+
    - Query Context7 for best practices
    - Check browser compatibility
    - Review existing patterns in codebase
    - Verify no duplicate functionality
 
 3. **Implementation Phase:**
+
    - Write code following quality standards
    - Add error handling
    - Add loading states (if async)
    - Test thoroughly in browser
 
 4. **Documentation Phase:**
+
    - Update README Features section
    - Add inline comments
    - Create usage examples
@@ -277,28 +361,33 @@ Git:
 **Comprehensive Review Areas:**
 
 1. **Security Audit (Severity 0.9-1.0 = Critical)**
+
    - XSS vulnerabilities
    - Input sanitization
    - No exposed secrets
    - Authentication/authorization issues
 
 2. **HTML/JS Integration**
+
    - All IDs referenced in JS exist in HTML
    - Event listeners attached correctly
    - No duplicate IDs
    - Event delegation pattern used
 
 3. **Responsive Design**
+
    - Mobile (< 768px) ✅
    - Tablet (768px - 1024px) ✅
    - Desktop (> 1024px) ✅
 
 4. **Security**
+
    - XSS protection (input sanitized)
    - No exposed credentials
    - localStorage data validated
 
 5. **Edge Cases**
+
    - Empty states
    - Long text (overflow)
    - Network failures
@@ -312,6 +401,7 @@ Git:
    - Focus states visible
 
 **Critic Output Format:**
+
 ```
 🔎 CRITIC REVIEW
 
@@ -326,6 +416,7 @@ Next: [Committer Agent / Implementer Agent for fixes]
 ```
 
 **Quality Gate:**
+
 - Critical issues (0.9+) → BLOCK commit
 - High issues (0.7-0.89) → Recommend fix
 - Medium issues (0.5-0.69) → Optional fix
@@ -336,16 +427,19 @@ Next: [Committer Agent / Implementer Agent for fixes]
 ### ⚡ RULE 9: Efficiency Guidelines
 
 **When making multiple edits:**
+
 - Use `multi_replace_string_in_file` instead of sequential `replace_string_in_file`
 - Batch independent operations in parallel
 - Read large file sections instead of multiple small reads
 
 **When searching:**
+
 - Use `semantic_search` for concepts
 - Use `grep_search` for exact strings
 - Use `file_search` for filenames
 
 **When creating files:**
+
 - Only create essential files
 - Don't create unnecessary documentation files
 - Combine related changes in single commit
@@ -355,20 +449,24 @@ Next: [Committer Agent / Implementer Agent for fixes]
 **Chat Mode vs Agent Mode:**
 
 #### Chat Mode (Simple Questions)
+
 When you ask general questions, NOT requesting features/fixes:
 
 ✅ **DO:**
+
 - Ask clarifying questions first
 - Detect context (error logs = debug request)
 - Provide concise answers
 - Don't assume outputs
 
 ❌ **DON'T:**
+
 - Dump code unless explicitly asked
 - Generate massive documents
 - Assume what you want
 
 **Example:**
+
 ```
 You: "What does saveTask do?"
 ❌ Wrong: [Shows 50 lines of code]
@@ -376,20 +474,23 @@ You: "What does saveTask do?"
            - Understand the logic?
            - Review quality?
            - Debug an issue?
-           
+
            What specifically?"
 ```
 
 #### Agent Mode (Features/Fixes/Reviews)
+
 When you request features, bug fixes, or code reviews:
 
 ✅ **DO:**
+
 - Execute full multi-agent workflows
 - Use output templates
 - Provide comprehensive output
 - Research, implement, review, document
 
 **Example:**
+
 ```
 You: "Add dark mode toggle"
 ✅ Right: [Full workflow with all agents]
@@ -397,6 +498,7 @@ You: "Add dark mode toggle"
 ```
 
 #### Context Detection
+
 - Error logs (no explanation) = Implicit debug request
 - Code + "broken" = Bug report
 - Simple question = Ask for clarity
@@ -407,30 +509,33 @@ You: "Add dark mode toggle"
 **When making changes:**
 
 1. **Before action:**
+
    ```
    I'll implement <feature> by:
    - Modifying <file1>
    - Adding <functionality>
    - Updating documentation
-   
+
    Proceed?
    ```
 
 2. **After completion:**
+
    ```
    ✅ Changes completed!
-   
+
    Modified:
    - <file1> - <what changed>
    - <file2> - <what changed>
-   
+
    Commit message:
    <conventional commit format>
-   
+
    Summary: <brief description>
    ```
 
 **Keep responses concise:**
+
 - 1-3 sentences for simple tasks
 - Detailed only for complex work
 - No unnecessary framing phrases
@@ -440,24 +545,28 @@ You: "Add dark mode toggle"
 ## Project-Specific Patterns
 
 ### Task Management
+
 - Categories: Work, Personal, Health, Finance, Shopping
 - Priorities: P1 (High) to P4 (Low)
 - Auto-categorization based on keywords
 - Storage: localStorage with JSON serialization
 
 ### API Integration
+
 - Model: `gemini-2.0-flash`
 - Endpoint: `/v1/models/{model}:generateContent`
 - Method: POST with streaming
 - Error handling: Network, rate limit, invalid key
 
 ### UI Patterns
+
 - Dark theme with CSS variables
 - Inter font for UI, JetBrains Mono for code
 - Smooth animations (300ms transitions)
 - Mobile-first responsive design
 
 ### Data Persistence
+
 - All data in localStorage
 - Keys: `gemini_api_key`, `daily_tasks`, `quick_notes`, `chat_history`
 - JSON serialization/deserialization
@@ -468,18 +577,21 @@ You: "Add dark mode toggle"
 ## Tools & Automation Available
 
 **MCP Servers (Auto-started):**
+
 - ✅ **Context7** - Up-to-date library documentation
 - ✅ **GitHub MCP** - Repository operations, PR management
 - ✅ **Markitdown** - Convert resources to markdown
 - ✅ **Playwright** - Browser automation and testing
 
 **Git Automation:**
+
 - ✅ Pre-commit hook (secret scanning)
 - ✅ Commit-msg hook (format validation)
 - ✅ CI/CD pipeline (linting, secret scan, deploy)
 - ✅ PR template with Critic/Reviewer checklists
 
 **Development:**
+
 - ✅ ESLint for JavaScript quality
 - ✅ Markdownlint for documentation
 - ✅ GitHub Actions for CI/CD
@@ -490,6 +602,7 @@ You: "Add dark mode toggle"
 ## Quick Reference
 
 **File Structure:**
+
 ```
 project/
 ├── index.html          # Main structure
@@ -509,6 +622,7 @@ project/
 ```
 
 **Common Tasks:**
+
 ```bash
 # Run local server
 python3 -m http.server 8000
@@ -524,6 +638,7 @@ git push origin main  # Automatic via workflow
 ```
 
 **Key Files to Watch:**
+
 - `script.js` - Main application logic
 - `style.css` - All styling
 - `index.html` - Structure and IDs
@@ -550,9 +665,9 @@ AI Agent:
 5. Update README Features section
 6. Generate commit message:
    feat(tasks): add category filtering
-   
+
    Users can filter tasks by category for focused view.
-   
+
    - Add category filter dropdown in tasks panel
    - Implement filtering in renderTasks()
    - Persist filter state in localStorage
@@ -578,9 +693,9 @@ AI Agent:
 6. Test in browser (add task, refresh, verify)
 7. Generate commit:
    fix(tasks): ensure tasks persist after page reload
-   
+
    Fixed localStorage serialization issue.
-   
+
    - Add JSON.stringify in saveTask()
    - Add error handling for localStorage quota
    - Add user notification on save failure
@@ -592,6 +707,7 @@ AI Agent:
 ## Success Criteria
 
 **Every change should:**
+
 - ✅ Pass Privacy Shield scan
 - ✅ Follow conventional commit format
 - ✅ Include updated documentation
@@ -602,6 +718,7 @@ AI Agent:
 - ✅ Be performant
 
 **AI Agent should:**
+
 - ✅ Proactively check for secrets
 - ✅ Generate complete commit messages
 - ✅ Update documentation automatically

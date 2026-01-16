@@ -1,0 +1,43 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "orion-daily-ai-assistant"
+    }
+  ],
+  "settings": {
+    "copilot.workspace": {
+      "name": "Daily AI Assistant",
+      "description": "Production-ready AI assistant powered by Google's Gemini API",
+      "type": "Node.js + Vanilla JavaScript",
+      "tags": ["ai", "gemini", "assistant", "javascript", "api"],
+      "technologies": ["JavaScript (ES6+)", "Google Gemini API", "localStorage", "HTML5", "CSS3"],
+      "mainFiles": ["script.js", "index.html", "style.css"],
+      "documentation": ["README.md", ".github/copilot-instructions.md", "CONTRIBUTING.md"]
+    },
+    "github.workspaceMetadata": {
+      "repository": "patlar104/orion-daily-ai-assistant",
+      "owner": "patlar104",
+      "mainBranch": "main",
+      "trackingEnabled": true
+    },
+    "copilot.context": {
+      "autoInclude": [".github/copilot-instructions.md", "README.md", "package.json"],
+      "indexingDepth": "full",
+      "semanticIndexing": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "github.copilot",
+      "github.copilot-chat",
+      "eamodio.gitlens",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "xabikos.javascriptsnippets",
+      "leizongmin.node-module-intellisense",
+      "christian-kohler.npm-intellisense",
+      "mikestead.dotenv"
+    ]
+  }
+}
