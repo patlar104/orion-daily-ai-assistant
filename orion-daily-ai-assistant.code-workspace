@@ -2,8 +2,8 @@
   "folders": [
     {
       "path": ".",
-      "name": "orion-daily-ai-assistant"
-    }
+      "name": "orion-daily-ai-assistant",
+    },
   ],
   "settings": {
     "copilot.workspace": {
@@ -13,19 +13,19 @@
       "tags": ["ai", "gemini", "assistant", "javascript", "api"],
       "technologies": ["JavaScript (ES6+)", "Google Gemini API", "localStorage", "HTML5", "CSS3"],
       "mainFiles": ["script.js", "index.html", "style.css"],
-      "documentation": ["README.md", ".github/copilot-instructions.md", "CONTRIBUTING.md"]
+      "documentation": ["README.md", ".github/copilot-instructions.md", "CONTRIBUTING.md"],
     },
     "github.workspaceMetadata": {
       "repository": "patlar104/orion-daily-ai-assistant",
       "owner": "patlar104",
       "mainBranch": "main",
-      "trackingEnabled": true
+      "trackingEnabled": true,
     },
     "copilot.context": {
       "autoInclude": [".github/copilot-instructions.md", "README.md", "package.json"],
       "indexingDepth": "full",
-      "semanticIndexing": true
-    }
+      "semanticIndexing": true,
+    },
   },
   "extensions": {
     "recommendations": [
@@ -37,7 +37,12 @@
       "xabikos.javascriptsnippets",
       "leizongmin.node-module-intellisense",
       "christian-kohler.npm-intellisense",
-      "mikestead.dotenv"
-    ]
-  }
+      "mikestead.dotenv",
+      "humao.rest-client",
+      "usernamehw.errorlens",
+      "streetsidesoftware.code-spell-checker",
+      "naumovs.color-highlight",
+      "mhutchie.git-graph",
+    ],
+  },
 }

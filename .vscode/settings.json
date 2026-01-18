@@ -191,5 +191,8 @@
   // ============================================
   "chat.commandRunnerEnabled": true,
   "chat.editor.fontSize": 13,
-  "chat.editor.fontFamily": "'JetBrains Mono', 'Monaco', monospace"
+  "chat.editor.fontFamily": "'JetBrains Mono', 'Monaco', monospace",
+  "debug.showSubSessionsInToolBar": true,
+  "chat.customAgentInSubagent.enabled": true,
+  "npm-intellisense.packageSubfoldersIntellisense": true
 }
