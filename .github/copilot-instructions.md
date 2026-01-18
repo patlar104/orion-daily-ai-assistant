@@ -197,6 +197,21 @@ Export tasks to CSV file for backup and analysis.
    - New automation added
    - Security rules change
 
+**CRITICAL: Use Proper Tools for File Operations** (Context7: `/microsoft/vscode-docs`, `/github/github-mcp-server`)
+
+✅ **Recommended:**
+- `replace_string_in_file` / `multi_replace_string_in_file` for local editing
+- `read_file` before making changes
+- GitHub MCP `create_or_update_file` for remote operations
+- `.githooks/` directory for git hooks (not `.git/hooks/` directly)
+
+❌ **Never Use:**
+- Python scripts: `cat >`, `echo >>`, heredoc
+- Shell file manipulation
+- Direct `.git/hooks/` editing
+
+**Why:** Python/shell bypass VS Code's file watcher, no undo/redo, no syntax validation, harder debugging.
+
 ### 🎯 RULE 4: Code Quality Standards
 
 **Event Handling:**
